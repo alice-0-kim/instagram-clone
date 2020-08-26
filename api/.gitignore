@@ -18,6 +18,9 @@
 .env.test.local
 .env.production.local
 
+# https://cloud.google.com/vision/docs/quickstart-client-libraries
+instagram-clone.json
+
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
