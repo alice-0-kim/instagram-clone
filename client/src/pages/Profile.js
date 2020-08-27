@@ -3,7 +3,7 @@ import Layout from '../components/Layout'
 
 const Profile = () => {
     const user = {
-        username: 'alice-0-kim',
+        username: 'yehee',
         posts: 10,
         followers: 14,
         following: 4,
