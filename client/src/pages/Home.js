@@ -1,7 +1,9 @@
 import React, { useRef, useState } from 'react'
-import { Button, Input } from '@material-ui/core'
+import { Button, ButtonGroup } from '@material-ui/core'
 import axios from 'axios'
 import Layout from '../components/Layout'
+import Feed from '../components/Feed'
+import classes from '../styles/home.module.css'
 
 const Home = () => {
     const Image = useRef(null)
@@ -63,15 +65,21 @@ const Home = () => {
 
     const HomePage = () => (
         <Layout>
-            <h1>Home page</h1>
             <p hidden={!message}>
                 You violated
                 {message}
             </p>
-            <Input inputRef={Image} fullWidth />
             <input type="file" accept="image/*" onChange={handleImageSelect} />
             <img ref={Image} />
             <Button variant="outlined" onClick={handleClick} style={{ margin: '1rem auto' }}>Upload Image</Button>
+            <h1 className={classes.logo}>akhl</h1>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <Button variant="contained" color="primary" style={{ color: '#fff', fontWeight: 'bold', textTransform: 'capitalize', width: 150, margin: 5 }}>Sign Up</Button>
+                <Button variant="outlined" color="primary" style={{ fontWeight: 'bold', textTransform: 'capitalize', width: 150, margin: 5 }}>Log In</Button>
+            </div>
+            <div style={{ padding: 24 }}>
+                <Feed />
+            </div>
         </Layout>
     )
     return <HomePage />

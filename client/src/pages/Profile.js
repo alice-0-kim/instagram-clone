@@ -1,10 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { Tab } from '@material-ui/core'
+import { TabContext, TabList, TabPanel } from '@material-ui/lab'
 import Layout from '../components/Layout'
 import Feed from '../components/Feed'
 import { user } from '../constant'
 import classes from '../styles/profile.module.css'
 
 const Profile = () => {
+    const [tab, setTab] = useState('Feed')
     const ProfilePage = () => {
         const {
             username, posts, followers, following, short,
@@ -28,7 +31,23 @@ const Profile = () => {
                         </div>
                     </div>
                 </div>
-                <Feed />
+                <TabContext value={tab}>
+                    <TabList
+                        variant="fullWidth"
+                        indicatorColor="primary"
+                        textColor="primary"
+                        onChange={(e, v) => setTab(v)}
+                    >
+                        <Tab value="Feed" label="Feed" />
+                        <Tab value="Summary" label="Summary" />
+                    </TabList>
+                    <TabPanel value="Feed">
+                        <Feed />
+                    </TabPanel>
+                    <TabPanel value="Summary">
+                        Summary
+                    </TabPanel>
+                </TabContext>
             </Layout>
         )
     }
