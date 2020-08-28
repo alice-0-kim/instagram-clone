@@ -1,6 +1,8 @@
 const express = require('express');
 const multer = require('multer');
 const AWS = require('aws-sdk');
+const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '.env.local')});
 const router = express.Router();
 
 const upload = multer({
@@ -8,18 +10,10 @@ const upload = multer({
 })
 
 const s3 = new AWS.S3({
-    accessKeyId: 'AKIAITLEL4KGBDKMA35A',
-    secretAccessKey: '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',
+    accessKeyId: process.env.ACCESS_KEY_ID,
+    secretAccessKey: process.env.SECRET_KEY,
     region: 'us-west-2'
 })
-
-const param = {
-    'Bucket':'akhl',
-    'Key': 'image/' + 'logo',
-    'ACL':'public-read',
-    'Body':'Buffer',
-    'ContentType':'image/png'
-}
 
 router.post('/', upload.single('myImage'), async (req, res) => {
     const result = await query(req.file.buffer);
@@ -40,8 +34,21 @@ router.post('/', upload.single('myImage'), async (req, res) => {
             message: `${nsfwResult.map(x => x[0]).join(', ')}`
         })
     }
+    const params = {
+        'Bucket':'akhl',
+        'Key': `images/${new Date().valueOf() + path.extname(req.file.originalname)}`,
+        'ACL':'public-read',
+        'Body': req.file.buffer
+    }
+    
+    s3.upload(params, function(err, data) {
+        console.log(err);
+        console.log(data);
+        const url = data.Location;
+    })
 
-    // TODO: store buffer image into the DB with queried data
+    // TODO: send it with queried data into the DB (url, face, label, safeSearch)
+    
 });
 
 async function query(buffer) {
