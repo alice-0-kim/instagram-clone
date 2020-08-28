@@ -3,7 +3,7 @@ var router = express.Router();
 
 // get nsfwCheck
 router.get('/', async function(req, res, next) {
-    const result = await query(req.param.url);
+    const result = await query(req.query.url);
     if (result.error) {
         return res.status(404).json({
             err: result.error,
@@ -11,13 +11,13 @@ router.get('/', async function(req, res, next) {
         })
     }
     const detections = result.safeSearchAnnotation;
-    console.log('Safe search:');
-    console.log(`Adult: ${detections.adult}`);
-    console.log(`Medical: ${detections.medical}`);
-    console.log(`Spoof: ${detections.spoof}`);
-    console.log(`Violence: ${detections.violence}`);
-    console.log(`Racy: ${detections.racy}`);
-    console.log(`Overall: ${JSON.stringify(detections)}`);
+    // console.log('Safe search:');
+    // console.log(`Adult: ${detections.adult}`);
+    // console.log(`Medical: ${detections.medical}`);
+    // console.log(`Spoof: ${detections.spoof}`);
+    // console.log(`Violence: ${detections.violence}`);
+    // console.log(`Racy: ${detections.racy}`);
+    // console.log(`Overall: ${JSON.stringify(detections)}`);
     nsfwResult = nsfwChecker(detections);
     if (nsfwResult.length === 0) {
         console.log(true);
@@ -26,9 +26,9 @@ router.get('/', async function(req, res, next) {
         });
     } else {
         console.log(false);
-        return res.status(400).json({
+        return res.status(200).json({
             isSafe: false,
-            message: `You violated ${nsfwResult.map(x => x[0]).join(', ')}`
+            message: `${nsfwResult.map(x => x[0]).join(', ')}`
         })
     }
 });
