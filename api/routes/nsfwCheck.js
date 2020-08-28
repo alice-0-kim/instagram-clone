@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 // get nsfwCheck
-router.get('/', async function(req, res, next) {
+router.get('/', async function (req, res, next) {
     const result = await query(req.query.url);
     if (result.error) {
         return res.status(404).json({
@@ -34,13 +34,13 @@ router.get('/', async function(req, res, next) {
 });
 
 async function query(url = 'https://images.unsplash.com/photo-1519052537078-e6302a4968d4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=801') {
-  // Imports the Google Cloud client library
-  const vision = require('@google-cloud/vision');
-  // Creates a client
-  const client = new vision.ImageAnnotatorClient();
-  // Performs label detection on the image file
-  const [result] = await client.safeSearchDetection(url);
-  return result;
+    // Imports the Google Cloud client library
+    const vision = require('@google-cloud/vision');
+    // Creates a client
+    const client = new vision.ImageAnnotatorClient();
+    // Performs label detection on the image file
+    const [result] = await client.safeSearchDetection(url);
+    return result;
 }
 
 function nsfwChecker(result) {

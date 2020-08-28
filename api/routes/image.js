@@ -3,7 +3,7 @@ const multer = require('multer');
 const router = express.Router();
 
 const upload = multer({
-    storage: multer.memoryStorage(), limits: {filesize: 1000 * 1000 * 12},
+    storage: multer.memoryStorage(), limits: { filesize: 1000 * 1000 * 12 },
 })
 
 router.post('/', upload.single('myImage'), async (req, res) => {
@@ -33,11 +33,11 @@ router.post('/', upload.single('myImage'), async (req, res) => {
 });
 
 async function query(buffer) {
-  const vision = require('@google-cloud/vision');
-  const client = new vision.ImageAnnotatorClient();
-  const [result] = await client.safeSearchDetection(buffer);
-  
-  return result;
+    const vision = require('@google-cloud/vision');
+    const client = new vision.ImageAnnotatorClient();
+    const [result] = await client.safeSearchDetection(buffer);
+
+    return result;
 }
 
 function nsfwChecker(result) {
