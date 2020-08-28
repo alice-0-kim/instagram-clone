@@ -24,8 +24,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/nsfwCheck', nsfwCheckRouter);
-app.use('/imageUpload', imageUploadRouter);
 app.use('/image', imageRouter);
 
 // catch 404 and forward to error handler
