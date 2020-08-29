@@ -1,0 +1,14 @@
+img {
+    width: 150px;
+    height: 150px;
+    margin: 5px;
+    object-fit: cover;
+}
+
+@media screen and (max-width: 414px) {
+    img {
+        width: 100%;
+        height: auto;
+        margin: 5px auto;
+    }
+}
