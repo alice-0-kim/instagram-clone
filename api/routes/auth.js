@@ -15,17 +15,4 @@ router.get('/auth/google/callback',
   })
 )
 
-// local passport routes
-router.post('/register', passport.authenticate('local-signup', {
-  successRedirect: '/',
-  failureRedirect: '/'
-})
-)
-
-router.post('/login', passport.authenticate('local-login', {
-  successRedirect: '/',
-  failureRedirect: '/',
-  failureFlash: true
-}))
-
 module.exports = router
