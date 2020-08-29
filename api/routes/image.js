@@ -27,6 +27,8 @@ router.post('/', upload.single('myImage'), async (req, res) => {
     const face = result.faceAnnotations;
     const label = result.labelAnnotations;
     const nsfwResult = nsfwChecker(safeSearch);
+    console.log(face);
+    console.log(label);
     if (nsfwResult.length !== 0) {
         console.log(false);
         return res.status(200).json({
@@ -48,7 +50,7 @@ router.post('/', upload.single('myImage'), async (req, res) => {
     })
 
     // TODO: send it with queried data into the DB (url, face, label, safeSearch)
-    
+
 });
 
 async function query(buffer) {
@@ -57,9 +59,18 @@ async function query(buffer) {
   const request = {
     image: {content: buffer},
     features: [
-        {type: 'FACE_DETECTION'},
-        {type: 'SAFE_SEARCH_DETECTION'},
-        {type: 'LABEL_DETECTION'},
+        {
+            maxResults: 50,
+            type: 'FACE_DETECTION'
+        },
+        {
+            maxResults: 50,
+            type: 'SAFE_SEARCH_DETECTION'
+        },
+        {
+            maxResults: 50,
+            type: 'LABEL_DETECTION'
+        },
     ],
   };
   const [result] = await client.annotateImage(request);
