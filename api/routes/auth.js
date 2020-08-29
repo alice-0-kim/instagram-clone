@@ -5,10 +5,10 @@ const router = express.Router()
 const scope = ['email', 'profile']
 
 // Oauth Routes
-router.get('/auth/google',
+router.get('/google',
   passport.authenticate('google', { scope })
 )
-router.get('/auth/google/callback',
+router.get('/google/callback',
   passport.authenticate('google', {
     failureRedirect: '/auth/google',
     successRedirect: '/',

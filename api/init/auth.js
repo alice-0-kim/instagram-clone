@@ -5,7 +5,7 @@ const session = require('express-session')
 const User = require('../models/user')
 const ObjectId = require('../controllers/helper')
 
-require('dotenv').config({ path: path.join(__dirname, '.env') })
+require('dotenv').config({ path: path.join(__dirname, '.env.local') })
 
 const clientID = process.env.OAUTH_CLIENT_ID
 const clientSecret = process.env.OAUTH_CLIENT_SECRET
