@@ -1,0 +1,24 @@
+.divider {
+    font-family: inherit;
+    font-size: 100%;
+    font-style: inherit;
+    font-weight: inherit;
+    line-height: 1;
+    overflow: visible;
+    padding: 0;
+    margin-bottom: 10px;
+    border: none;
+    border-top: 1px solid #e0e0e0;
+    color: #6e6d7a;
+    text-align: center;
+}
+
+.divider::after {
+    content: 'Or';
+    display: inline-block;
+    position: relative;
+    top: -10px;
+    font: normal 14px/14px "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    padding: 0 16px;
+    background: #fff;
+}

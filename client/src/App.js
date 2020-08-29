@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { ThemeProvider, StylesProvider, createMuiTheme } from '@material-ui/core/styles'
 import Home from './pages/Home'
 import Profile from './pages/Profile'
+import SignUp from './pages/SignUp'
 import './App.css'
 
 const theme = createMuiTheme({
@@ -25,6 +26,7 @@ function App() {
             <StylesProvider injectFirst>
                 <Router>
                     <Switch>
+                        <Route path="/new" component={SignUp} />
                         <Route path="/user/:id" component={Profile} />
                         <Route path="*" component={Home} />
                     </Switch>

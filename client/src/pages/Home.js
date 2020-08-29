@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react'
-import { Button, ButtonGroup } from '@material-ui/core'
+import { Link } from 'react-router-dom'
+import { Button } from '@material-ui/core'
 import axios from 'axios'
 import Layout from '../components/Layout'
 import Feed from '../components/Feed'
@@ -74,7 +75,9 @@ const Home = () => {
             <Button variant="outlined" onClick={handleClick} style={{ margin: '1rem auto' }}>Upload Image</Button>
             <h1 className={classes.logo}>akhl</h1>
             <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <Button variant="contained" color="primary" style={{ color: '#fff', fontWeight: 'bold', textTransform: 'capitalize', width: 150, margin: 5 }}>Sign Up</Button>
+                <Link to="/new">
+                    <Button variant="contained" color="primary" style={{ color: '#fff', fontWeight: 'bold', textTransform: 'capitalize', width: 150, margin: 5 }} disableElevation>Sign Up</Button>
+                </Link>
                 <Button variant="outlined" color="primary" style={{ fontWeight: 'bold', textTransform: 'capitalize', width: 150, margin: 5 }}>Log In</Button>
             </div>
             <div style={{ padding: 24 }}>
