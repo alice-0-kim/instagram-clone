@@ -1,4 +1,5 @@
 import React, { useRef } from 'react'
+import { Link } from 'react-router-dom'
 import { Button, TextField, } from '@material-ui/core'
 import classes from '../styles/signup.module.css'
 
@@ -29,7 +30,9 @@ const SignUp = () => {
                 </div>
                 <div style={{ width: '50%', display: 'flex', alignItems: 'center' }}>
                     <div style={{ maxWidth: 375, margin: 'auto' }}>
-                        <Button variant="contained" color="primary" style={{ textTransform: 'none', fontWeight: 700, color: '#fff', width: '100%', margin: '1.75rem auto' }} disableElevation>Sign up with Google</Button>
+                        <Link to="/auth/google">
+                            <Button variant="contained" color="primary" style={{ textTransform: 'none', fontWeight: 700, color: '#fff', width: '100%', margin: '1.75rem auto' }} disableElevation>Sign up with Google</Button>
+                        </Link>
                         <hr className={classes.divider} />
                         {fields.map(({ label, ref }) => (
                             <TextField key={label} variant="outlined" margin="dense" label={label} inputRef={ref} fullWidth />))}
