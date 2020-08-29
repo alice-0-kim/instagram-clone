@@ -8,11 +8,15 @@ const Home = () => {
     const HomePage = () => (
         <>
             <h1 className={classes.logo}>akhl</h1>
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <div className={classes.container}>
                 <Link to="/new">
-                    <Button variant="contained" color="primary" style={{ color: '#fff', fontWeight: 'bold', textTransform: 'capitalize', width: 150, margin: 5 }} disableElevation>Sign Up</Button>
+                    <Button className={classes.contained} variant="contained" color="primary" disableElevation>
+                        Sign Up
+                    </Button>
                 </Link>
-                <Button variant="outlined" color="primary" style={{ fontWeight: 'bold', textTransform: 'capitalize', width: 150, margin: 5 }}>Log In</Button>
+                <Button className={classes.outlined} variant="outlined" color="primary">
+                    Log In
+                </Button>
             </div>
             <div style={{ padding: 24 }}>
                 <Feed />
