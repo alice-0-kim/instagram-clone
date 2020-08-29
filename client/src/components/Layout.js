@@ -57,7 +57,7 @@ const Layout = ({ children }) => {
                     <Collapse in={open}>
                         <Alert
                             severity={severity}
-                            action={
+                            action={(
                                 <IconButton
                                     aria-label="close"
                                     color="inherit"
@@ -68,7 +68,7 @@ const Layout = ({ children }) => {
                                 >
                                     <CloseIcon fontSize="inherit" />
                                 </IconButton>
-                            }
+                            )}
                         >
                             {message}
                         </Alert>
@@ -76,7 +76,14 @@ const Layout = ({ children }) => {
                     <input ref={Input} type="file" accept="image/*" onChange={handleImageSelect} hidden />
                     <img ref={Image} style={{ display: 'block', margin: '5rem auto' }} />
                     {children}
-                    <Fab color="primary" aria-label="add" onClick={() => Input.current.click()} style={{ position: 'fixed', bottom: '1rem', right: '1rem', color: '#fff' }}>
+                    <Fab
+                        color="primary"
+                        aria-label="add"
+                        onClick={() => Input.current.click()}
+                        style={{
+                            position: 'fixed', bottom: '1rem', right: '1rem', color: '#fff',
+                        }}
+                    >
                         <AddIcon />
                     </Fab>
                 </main>
