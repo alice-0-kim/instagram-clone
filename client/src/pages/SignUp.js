@@ -26,9 +26,9 @@ const SignUp = () => {
             </div>
             <div className={classes.form}>
                 <div style={{ maxWidth: 375, margin: 'auto' }}>
-                    <Link to="/auth/google">
+                    <a href="/auth/google">
                         <ContainedButton title="Sign up with Google" />
-                    </Link>
+                    </a>
                     <hr className={classes.divider} />
                     {fields.map(({ label, ref }) => (
                         <TextField key={label} variant="outlined" margin="dense" label={label} inputRef={ref} fullWidth />))}
