@@ -1,4 +1,5 @@
 const GoogleStrategy = require('passport-google-oauth20').Strategy
+const LocalStrategy = require('passport-local').Strategy
 const passport = require('passport')
 const path = require('path')
 const session = require('express-session')
@@ -31,31 +32,46 @@ module.exports = app => {
     })
 
     // OAuth Strategy to get access_token
-    passport.use(
-        new GoogleStrategy(
-            {
-                clientID,
-                clientSecret,
-                callbackURL: '/auth/google/callback',
-            },
-            (accessToken, refreshToken, profile, done) => {
-                const user = {
-                    givenName: profile.name.givenName,
-                    familyName: profile.name.familyName,
-                    email: profile.emails[0]?.value,
-                    imageUrl: profile.photos[0]?.value,
-                }
-                User.findOne({ email: user.email }).then(existingUser => {
-                    if (existingUser) {
-                        return done(null, existingUser)
-                    }
-                    new User(user)
+    passport.use(new GoogleStrategy({
+        clientID,
+        clientSecret,
+        callbackURL: '/auth/google/callback',
+    }, (accessToken, refreshToken, profile, done) => {
+        const user = {
+            givenName: profile.name.givenName,
+            familyName: profile.name.familyName,
+            email: profile.emails[0]?.value,
+            imageUrl: profile.photos[0]?.value,
+        }
+        User.findOne({ email: user.email }).then(existingUser => {
+            if (existingUser) {
+                return done(null, existingUser)
+            }
+            new User(user)
+                .save()
+                .then(newUser => done(null, { _id: newUser._id, accessToken, refreshToken }))
+        })
+    }))
+
+    // Local Strategy using username and password
+    passport.use(new LocalStrategy({
+        passReqToCallback: true,
+    },
+        (req, username, password, done) => {
+            User.findOne({ username }, function (err, user) {
+                if (err) return done(err)
+                if (!user) {
+                    new User(req.body)
                         .save()
-                        .then(newUser => done(null, { _id: newUser._id, accessToken, refreshToken }))
-                })
-            },
-        ),
-    )
+                        .then(newUser => done(null, { _id: newUser._id }))
+                } else if (!user.password !== password) {
+                    return done(null, false)
+                } else {
+                    return done(null, user)
+                }
+            })
+        }
+    ))
 
     app.use(passport.initialize())
     app.use(passport.session())
