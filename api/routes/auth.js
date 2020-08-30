@@ -6,13 +6,11 @@ const scope = ['email', 'profile']
 
 // Oauth Routes
 router.get('/google',
-  passport.authenticate('google', { scope })
-)
+    passport.authenticate('google', { scope }))
 router.get('/google/callback',
-  passport.authenticate('google', {
-    failureRedirect: '/auth/google',
-    successRedirect: '/',
-  })
-)
+    passport.authenticate('google', {
+        failureRedirect: '/auth/google',
+        successRedirect: '/',
+    }))
 
 module.exports = router
