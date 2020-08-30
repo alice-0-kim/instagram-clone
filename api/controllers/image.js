@@ -2,13 +2,14 @@ const path = require('path')
 const AWS = require('aws-sdk')
 
 const Image = require('../models/image')
+const User = require('../models/user')
+const ObjectId = require('./helper')
 
 const s3 = new AWS.S3({
     accessKeyId: process.env.ACCESS_KEY_ID,
     secretAccessKey: process.env.SECRET_KEY,
     region: 'us-west-2',
 })
-
 
 createImage = async (req, res) => {
     const { body } = req
@@ -49,14 +50,14 @@ createImage = async (req, res) => {
             imageUrl: data.Location,
             face,
             label,
-            author: { id: req.user?._id },
+            author: { id: req.user._id },
         }
-        console.log(imageParam);
         const image = new Image(imageParam)
         if (!image) {
             return res.status(400).json({ success: false, error: err })
         }
         await image.save()
+        await User.findByIdAndUpdate(ObjectId(req.user._id), { $push: { images: image._id.toString() } })
         return res.status(201).json({
             success: true,
             id: image._id,
@@ -64,7 +65,7 @@ createImage = async (req, res) => {
         })
     } catch (err) {
         return res.status(400).json({
-            error,
+            err,
             message: 'Image not created!',
         })
     }
@@ -112,7 +113,15 @@ getImages = (req, res) => {
 }
 
 getImageById = (req, res) => {
-
+    Image.findById(ObjectId(req.params.id), (err, image) => {
+        if (err) {
+            return res.status(400).json({ success: false, error: err })
+        }
+        if (!image) {
+            return res.status(404).json({ success: false, error: 'Image not found' })
+        }
+        return res.status(200).json({ success: true, image })
+    }).catch(err => err)
 }
 
 module.exports = {

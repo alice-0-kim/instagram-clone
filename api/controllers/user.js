@@ -66,7 +66,7 @@ getUserById = (req, res) => {
         if (!user) {
             return res.status(404).json({ success: false, error: 'User not found' })
         }
-        return res.status(200).json({ success: true, data: user })
+        return res.status(200).json({ success: true, user })
     }).catch(err => err)
 }
 
