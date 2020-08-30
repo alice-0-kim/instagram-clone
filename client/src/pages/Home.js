@@ -1,18 +1,27 @@
-import React, { useRef } from 'react'
-import { Button, Input } from '@material-ui/core'
-import Layout from '../components/Layout'
+import React from 'react'
+import { Link } from 'react-router-dom'
+import { Button } from '@material-ui/core'
+import Feed from '../components/Feed'
+import classes from '../styles/home.module.css'
 
 const Home = () => {
-    const Image = useRef(null)
-    const handleClick = () => {
-        console.log(Image.current?.value)
-    }
     const HomePage = () => (
-        <Layout>
-            <h1>Home page</h1>
-            <Input inputRef={Image} fullWidth />
-            <Button variant="outlined" onClick={handleClick} style={{ margin: '1rem auto' }}>Upload Image</Button>
-        </Layout>
+        <>
+            <h1 className={classes.logo}>akhl</h1>
+            <div className={classes.container}>
+                <Link to="/new">
+                    <Button className={classes.contained} variant="contained" color="primary" disableElevation>
+                        Sign Up
+                    </Button>
+                </Link>
+                <Button className={classes.outlined} variant="outlined" color="primary">
+                    Log In
+                </Button>
+            </div>
+            <div style={{ padding: 24 }}>
+                <Feed />
+            </div>
+        </>
     )
     return <HomePage />
 }

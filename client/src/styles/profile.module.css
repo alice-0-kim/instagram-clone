@@ -1,0 +1,23 @@
+.profile {
+    display: flex;
+    margin: 5rem auto;
+    align-items: center;
+}
+
+.picture {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 3rem;
+}
+
+@media screen and (max-width: 414px) {
+    .profile {
+        display: block;
+    }
+    .picture {
+        margin: auto;
+        display: block;
+    }
+}

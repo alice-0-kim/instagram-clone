@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap');
+
+button.contained {
+    color: #fff;
+    font-weight: bold;
+    text-transform: capitalize;
+    width: 150px;
+    margin: 5px;
+}
+
+button.outlined {
+    font-weight: bold;
+    text-transform: capitalize;
+    width: 150px;
+    margin: 5px;
+}
+
+.logo {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    text-align: center;
+    color: #3fbac2;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+}
