@@ -109,7 +109,15 @@ deleteImage = (req, res) => {
 }
 
 getImages = (req, res) => {
-
+    Image.find({}, null, { sort: { createdAt: -1 } }, (err, posts) => {
+        if (err) {
+            return res.status(400).json({ success: false, error: err })
+        }
+        if (!posts.length) {
+            return res.status(404).json({ success: false, error: 'Image not found' })
+        }
+        return res.status(200).json({ success: true, posts })
+    }).catch(err => err)
 }
 
 getImageById = (req, res) => {
