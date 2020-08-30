@@ -21,8 +21,8 @@ const Layout = ({ children }) => {
                     'content-type': 'multipart/form-data',
                 },
             })
-            setSeverity(res.data.isSafe ? 'success' : 'error')
-            setMessage(res.data.isSafe ? 'Image was successfully posted!' : `You violated ${res.data.message}!`)
+            setSeverity(res.data.success ? 'success' : 'error')
+            setMessage(res.data.success ? 'Image was successfully posted!' : `You violated ${res.data.message}!`)
             setOpen(true)
         } catch (err) {
             console.error(err)
