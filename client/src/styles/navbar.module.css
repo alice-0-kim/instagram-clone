@@ -1,0 +1,24 @@
+.root {
+    background: white;
+    box-shadow: none;
+    color: black;
+    font-size: small;
+}
+
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+}
+
+.button {
+    color: #fff;
+    font-weight: 700;
+    text-transform: none;
+}
+
+.logo {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    text-align: center;
+    color: #3fbac2;
+}

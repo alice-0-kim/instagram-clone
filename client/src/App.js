@@ -27,8 +27,8 @@ function App() {
             <StylesProvider injectFirst>
                 <Router>
                     <Switch>
-                        <Route path="/new" component={SignUp} />
-                        <Route path="/user/:id">
+                        <Route path="/login" component={SignUp} />
+                        <Route path="/:id">
                             <Layout>
                                 <Profile />
                             </Layout>
