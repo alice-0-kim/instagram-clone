@@ -1,7 +1,6 @@
 const express = require('express')
 const path = require('path')
 const multer = require('multer')
-require('dotenv').config({ path: path.join(__dirname, '.env.local') })
 
 const router = express.Router()
 const ImageCtrl = require('../controllers/image')
