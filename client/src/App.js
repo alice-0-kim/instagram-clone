@@ -4,6 +4,7 @@ import { ThemeProvider, StylesProvider, createMuiTheme } from '@material-ui/core
 import Home from './pages/Home'
 import Profile from './pages/Profile'
 import SignUp from './pages/SignUp'
+import Login from './pages/Login'
 import Layout from './components/Layout'
 import './App.css'
 
@@ -27,7 +28,8 @@ function App() {
             <StylesProvider injectFirst>
                 <Router>
                     <Switch>
-                        <Route path="/login" component={SignUp} />
+                        <Route path="/new" component={SignUp} />
+                        <Route path="/login" component={Login} />
                         <Route path="/:id">
                             <Layout>
                                 <Profile />

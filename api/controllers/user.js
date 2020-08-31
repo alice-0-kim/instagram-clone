@@ -59,7 +59,7 @@ deleteUser = (req, res) => {
 }
 
 getUserById = (req, res) => {
-    User.findById(ObjectId(req.params.id), (err, user) => {
+    User.findOne({ username: req.params.id }, (err, user) => {
         if (err) {
             return res.status(400).json({ success: false, error: err })
         }
@@ -71,7 +71,7 @@ getUserById = (req, res) => {
 }
 
 getUsers = (req, res) => {
-    User.find({ available: true }, (err, users) => {
+    User.find({}, (err, users) => {
         if (err) {
             return res.status(400).json({ success: false, error: err })
         }

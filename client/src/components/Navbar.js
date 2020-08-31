@@ -35,7 +35,7 @@ const Navbar = () => {
                         )
                         : (
                             <div style={{ display: 'flex', minWidth: 165, justifyContent: 'space-between' }}>
-                                <a href="/login">
+                                <a href="/new">
                                     <Button color="primary" style={{ fontWeight: 700, textTransform: 'none' }}>
                                         Sign up
                                     </Button>

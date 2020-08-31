@@ -4,8 +4,8 @@ import { TabContext, TabList, TabPanel } from '@material-ui/lab'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
 import Feed from '../components/Feed'
-// import { user } from '../constant'
 import classes from '../styles/profile.module.css'
+import profile from '../assets/profile.png'
 
 const Profile = () => {
     const [tab, setTab] = useState('Feed')
@@ -34,7 +34,7 @@ const Profile = () => {
             <>
                 <div className={classes.profile}>
                     <img
-                        src={imageUrl}
+                        src={imageUrl || profile}
                         className={classes.picture}
                     />
                     <div>
