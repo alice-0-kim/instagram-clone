@@ -64,7 +64,7 @@ module.exports = app => {
                     new User(req.body)
                         .save()
                         .then(newUser => done(null, { _id: newUser._id }))
-                } else if (!user.password !== password) {
+                } else if (user.password !== password) {
                     return done(null, false)
                 } else {
                     return done(null, user)

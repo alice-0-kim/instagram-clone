@@ -6,11 +6,12 @@ const scope = ['email', 'profile']
 
 router.get('/google', passport.authenticate('google', { scope }))
 router.get('/google/callback', passport.authenticate('google', {
-    failureRedirect: '/auth/google',
     successRedirect: '/',
+    failureRedirect: '/auth/google',
 }))
 router.post('/local', passport.authenticate('local', {
-    failureRedirect: '/login'
+    successRedirect: '/',
+    failureRedirect: '/login',
 }))
 
 module.exports = router
