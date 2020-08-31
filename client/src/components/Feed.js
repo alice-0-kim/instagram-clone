@@ -1,13 +1,12 @@
 import React from 'react'
-import { photos } from '../constant'
 import '../styles/feed.module.css'
 
-const Feed = () => (
+const Feed = ({ posts = [] }) => (
     <div>
-        {photos.map(({ url }, i) => (
+        {posts.map(({ imageUrl }, i) => (
             <img
                 key={i}
-                src={url}
+                src={imageUrl}
             />
         ))}
     </div>

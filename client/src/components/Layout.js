@@ -4,6 +4,7 @@ import AddIcon from '@material-ui/icons/Add'
 import CloseIcon from '@material-ui/icons/Close'
 import Alert from '@material-ui/lab/Alert'
 import axios from 'axios'
+import Navbar from './Navbar'
 
 const Layout = ({ children }) => {
     const Input = useRef(null)
@@ -15,18 +16,14 @@ const Layout = ({ children }) => {
     const handleImageUpload = async () => {
         const formData = new FormData()
         formData.append('myImage', Image.current.file)
-        try {
-            const res = await axios.post('/image', formData, {
-                headers: {
-                    'content-type': 'multipart/form-data',
-                },
-            })
-            setSeverity(res.data.success ? 'success' : 'error')
-            setMessage(res.data.success ? 'Image was successfully posted!' : `You violated ${res.data.message}!`)
-            setOpen(true)
-        } catch (err) {
-            console.error(err)
-        }
+        const res = await axios.post('/image', formData, {
+            headers: {
+                'content-type': 'multipart/form-data',
+            },
+        })
+        setSeverity(res.data.success ? 'success' : 'error')
+        setMessage(res.data.success ? 'Image was successfully posted!' : `You violated ${res.data.message}!`)
+        setOpen(true)
     }
 
     const handleImageSelect = e => {
@@ -40,12 +37,11 @@ const Layout = ({ children }) => {
             }
             reader.readAsDataURL(file)
             handleImageUpload()
-        } else {
-            console.log('No image selected')
         }
     }
     return (
         <>
+            <Navbar />
             <div
                 style={{
                     margin: `0 auto`,

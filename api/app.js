@@ -25,8 +25,8 @@ async function init() {
 
     app.use('/', indexRouter)
 
-    app.use('/*', function (req, res) {
-        res.sendFile(path.join(__dirname, '../client/build/index.html'));
+    app.use('/*', (req, res) => {
+        res.sendFile(path.join(__dirname, '../client/build/index.html'))
     })
 
     // catch 404 and forward to error handler
