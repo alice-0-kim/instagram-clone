@@ -27,11 +27,17 @@ const Navbar = () => {
                     <h1 className={classes.logo}>akhl</h1>
                     {user
                         ? (
-                            <a href="/logout">
-                                <Button className={classes.button} variant="contained" color="primary" disableElevation>
-                                    Log out
-                                </Button>
-                            </a>
+                            <div style={{
+                                display: 'flex', minWidth: 185, color: '#3fbac2', alignItems: 'center', fontWeight: 700, justifyContent: 'space-between',
+                            }}
+                            >
+                                <span>{`Hello, ${user.givenName}!`}</span>
+                                <a href="/logout">
+                                    <Button className={classes.button} variant="contained" color="primary" disableElevation>
+                                        Log out
+                                    </Button>
+                                </a>
+                            </div>
                         )
                         : (
                             <div style={{ display: 'flex', minWidth: 165, justifyContent: 'space-between' }}>

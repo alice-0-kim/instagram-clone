@@ -5,6 +5,7 @@ import Home from './pages/Home'
 import Profile from './pages/Profile'
 import SignUp from './pages/SignUp'
 import Login from './pages/Login'
+import Setup from './pages/Setup'
 import Layout from './components/Layout'
 import './App.css'
 
@@ -29,6 +30,7 @@ function App() {
                 <Router>
                     <Switch>
                         <Route path="/new" component={SignUp} />
+                        <Route path="/set" component={Setup} />
                         <Route path="/login" component={Login} />
                         <Route path="/:id">
                             <Layout>

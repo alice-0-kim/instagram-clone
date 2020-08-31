@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom'
 import axios from 'axios'
 import Feed from '../components/Feed'
 import classes from '../styles/profile.module.css'
-import profile from '../assets/profile.png'
+import profile from '../assets/classic.png'
 
 const Profile = () => {
     const [tab, setTab] = useState('Feed')
@@ -55,7 +55,7 @@ const Profile = () => {
                         textColor="primary"
                         onChange={(e, v) => setTab(v)}
                     >
-                        <Tab value="Feed" label="Feed" />
+                        <Tab value="Feed" label="Posts" />
                         <Tab value="Summary" label="Summary" />
                     </TabList>
                     <TabPanel value="Feed">

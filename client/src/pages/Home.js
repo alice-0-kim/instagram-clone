@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
+import axios from 'axios'
 import Feed from '../components/Feed'
 import classes from '../styles/home.module.css'
-import axios from 'axios'
 
 const Home = () => {
     const [posts, setPosts] = useState([])
