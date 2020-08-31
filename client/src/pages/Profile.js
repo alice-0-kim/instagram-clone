@@ -11,7 +11,7 @@ import profile from '../assets/classic.png'
 const Profile = () => {
     const [tab, setTab] = useState('Feed')
     const [user, setUser] = useState()
-    const [posts, setPosts] = useState()
+    const [posts, setPosts] = useState([])
     const { id } = useParams()
 
     useEffect(() => {

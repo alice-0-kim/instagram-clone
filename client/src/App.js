@@ -2,7 +2,6 @@ import React from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { ThemeProvider, StylesProvider, createMuiTheme } from '@material-ui/core/styles'
 import Home from './pages/Home'
-import NotFound from './pages/404'
 import Profile from './pages/Profile'
 import SignUp from './pages/SignUp'
 import Login from './pages/Login'
@@ -41,11 +40,6 @@ function App() {
                         <Route exact path="/">
                             <Layout>
                                 <Home />
-                            </Layout>
-                        </Route>
-                        <Route path="*">
-                            <Layout>
-                                <NotFound />
                             </Layout>
                         </Route>
                     </Switch>
