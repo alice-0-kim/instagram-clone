@@ -28,21 +28,27 @@ const SignUp = () => {
     const fields = [{
         label: 'Given name',
         ref: givenName,
+        type: 'text',
     }, {
         label: 'Family name',
         ref: familyName,
+        type: 'text',
     }, {
         label: 'Email',
         ref: email,
+        type: 'email',
     }, {
         label: 'Username',
         ref: username,
+        type: 'text',
     }, {
         label: 'Password',
         ref: password,
+        type: 'password',
     }, {
         label: 'Verify password',
         ref: verify,
+        type: 'password',
     }]
 
     const submit = async () => {
@@ -68,8 +74,8 @@ const SignUp = () => {
                         <ContainedButton title="Sign in with Google" />
                     </a>
                     <hr className={classes.divider} />
-                    {fields.map(({ label, ref }) => (
-                        <TextField key={label} variant="outlined" margin="dense" label={label} inputRef={ref} fullWidth />))}
+                    {fields.map(({ label, ref, type }) => (
+                        <TextField key={label} variant="outlined" margin="dense" label={label} inputRef={ref} type={type} fullWidth />))}
                     <ContainedButton title="Create account" onClick={submit} />
                     <p style={{ textAlign: 'center' }}>Already have an account? <a href="/login" style={{ color: '#3fbac2' }}>Log in</a></p>
                 </div>
