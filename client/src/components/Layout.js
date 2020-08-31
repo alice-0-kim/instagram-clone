@@ -9,8 +9,8 @@ import Navbar from './Navbar'
 const Layout = ({ children }) => {
     const Input = useRef(null)
     const Image = useRef(null)
-    const [message, setMessage] = useState('')
     const [open, setOpen] = useState(false)
+    const [message, setMessage] = useState('')
     const [severity, setSeverity] = useState('success')
 
     const handleImageUpload = async () => {

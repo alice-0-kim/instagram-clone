@@ -1,6 +1,10 @@
-import React, { useRef } from 'react'
-import { Button, TextField } from '@material-ui/core'
+import React, { useRef, useState } from 'react'
+import {
+    Button, Collapse, TextField, IconButton,
+} from '@material-ui/core'
 import { useHistory } from 'react-router-dom'
+import CloseIcon from '@material-ui/icons/Close'
+import Alert from '@material-ui/lab/Alert'
 import axios from 'axios'
 import classes from '../styles/signup.module.css'
 
@@ -24,6 +28,7 @@ const SignUp = () => {
     const username = useRef(null)
     const password = useRef(null)
     const verify = useRef(null)
+    const [open, setOpen] = useState(false)
 
     const fields = [{
         label: 'Given name',
@@ -60,9 +65,14 @@ const SignUp = () => {
             username: username.current.value,
             password: password.current.value,
         }
-        await axios.post('/auth/local', user)
-        history.push('/')
+        try {
+            await axios.post('/auth/local/new', user)
+            history.push(`/${user.username}`)
+        } catch (err) {
+            setOpen(true)
+        }
     }
+
     const SignUpPage = () => (
         <div className={classes.root}>
             <div className={classes.branding}>
@@ -70,6 +80,25 @@ const SignUp = () => {
             </div>
             <div className={classes.form}>
                 <div style={{ maxWidth: 375, margin: 'auto' }}>
+                    <Collapse in={open}>
+                        <Alert
+                            severity="error"
+                            action={(
+                                <IconButton
+                                    aria-label="close"
+                                    color="inherit"
+                                    size="small"
+                                    onClick={() => {
+                                        setOpen(false)
+                                    }}
+                                >
+                                    <CloseIcon fontSize="inherit" />
+                                </IconButton>
+                            )}
+                        >
+                            Authentication failed!
+                        </Alert>
+                    </Collapse>
                     <a href="/auth/google">
                         <ContainedButton title="Sign in with Google" />
                     </a>
@@ -77,7 +106,10 @@ const SignUp = () => {
                     {fields.map(({ label, ref, type }) => (
                         <TextField key={label} variant="outlined" margin="dense" label={label} inputRef={ref} type={type} fullWidth />))}
                     <ContainedButton title="Create account" onClick={submit} />
-                    <p style={{ textAlign: 'center' }}>Already have an account? <a href="/login" style={{ color: '#3fbac2' }}>Log in</a></p>
+                    <p style={{ textAlign: 'center' }}>
+                        Already have an account?
+                        <a href="/login" style={{ color: '#3fbac2' }}>Log in</a>
+                    </p>
                 </div>
             </div>
         </div>

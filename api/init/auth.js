@@ -54,7 +54,7 @@ module.exports = app => {
     }))
 
     // Local Strategy using username and password
-    passport.use(new LocalStrategy({
+    passport.use('new', new LocalStrategy({
         passReqToCallback: true,
     },
         (req, username, password, done) => {
@@ -69,6 +69,18 @@ module.exports = app => {
                 } else {
                     return done(null, user)
                 }
+            })
+        }
+    ))
+
+    passport.use('login', new LocalStrategy({
+        passReqToCallback: true,
+    },
+        (req, username, password, done) => {
+            User.findOne({ username }, function (err, user) {
+                if (err) return done(err)
+                if (!user || user.password !== password) return done(null, false)
+                else return done(null, user)
             })
         }
     ))

@@ -1,6 +1,10 @@
-import React, { useRef } from 'react'
-import { Button, TextField } from '@material-ui/core'
+import React, { useRef, useState } from 'react'
+import {
+    Button, Collapse, TextField, IconButton,
+} from '@material-ui/core'
 import { useHistory } from 'react-router-dom'
+import CloseIcon from '@material-ui/icons/Close'
+import Alert from '@material-ui/lab/Alert'
 import axios from 'axios'
 import classes from '../styles/login.module.css'
 
@@ -20,13 +24,16 @@ const Login = () => {
     const history = useHistory()
     const username = useRef(null)
     const password = useRef(null)
+    const [open, setOpen] = useState(false)
 
     const fields = [{
         label: 'Username',
-        ref: username,
+        inputRef: username,
+        type: 'text',
     }, {
         label: 'Password',
-        ref: password,
+        inputRef: password,
+        type: 'password',
     }]
 
     const submit = async () => {
@@ -34,9 +41,14 @@ const Login = () => {
             username: username.current.value,
             password: password.current.value,
         }
-        await axios.post('/auth/local', user)
-        history.push('/')
+        try {
+            await axios.post('/auth/local/login', user)
+            history.push(`/${user.username}`)
+        } catch (err) {
+            setOpen(true)
+        }
     }
+
     const LoginPage = () => (
         <div className={classes.root}>
             <div className={classes.branding}>
@@ -44,12 +56,31 @@ const Login = () => {
             </div>
             <div className={classes.form}>
                 <div style={{ maxWidth: 375, margin: 'auto' }}>
+                    <Collapse in={open}>
+                        <Alert
+                            severity="error"
+                            action={(
+                                <IconButton
+                                    aria-label="close"
+                                    color="inherit"
+                                    size="small"
+                                    onClick={() => {
+                                        setOpen(false)
+                                    }}
+                                >
+                                    <CloseIcon fontSize="inherit" />
+                                </IconButton>
+                            )}
+                        >
+                            Authentication failed!
+                        </Alert>
+                    </Collapse>
                     <a href="/auth/google">
                         <ContainedButton title="Sign in with Google" />
                     </a>
                     <hr className={classes.divider} />
-                    {fields.map(({ label, ref }) => (
-                        <TextField key={label} variant="outlined" margin="dense" label={label} inputRef={ref} fullWidth />))}
+                    {fields.map((props, i) => (
+                        <TextField key={i} variant="outlined" margin="dense" {...props} fullWidth />))}
                     <ContainedButton title="Log in" onClick={submit} />
                 </div>
             </div>
