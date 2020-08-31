@@ -1,44 +1,20 @@
-import React, { useState, useRef } from 'react'
+import React, { useState } from 'react'
 import { Collapse, Fab, IconButton } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add'
 import CloseIcon from '@material-ui/icons/Close'
 import Alert from '@material-ui/lab/Alert'
-import axios from 'axios'
 import Navbar from './Navbar'
+import ImageUploader from './ImageUploader'
 
 const Layout = ({ children }) => {
-    const Input = useRef(null)
-    const Image = useRef(null)
     const [open, setOpen] = useState(false)
-    const [message, setMessage] = useState('')
-    const [severity, setSeverity] = useState('success')
+    const [show, showAlert] = useState(false)
 
-    const handleImageUpload = async () => {
-        const formData = new FormData()
-        formData.append('myImage', Image.current.file)
-        const res = await axios.post('/image', formData, {
-            headers: {
-                'content-type': 'multipart/form-data',
-            },
-        })
-        setSeverity(res.data.success ? 'success' : 'error')
-        setMessage(res.data.success ? 'Image was successfully posted!' : `You violated ${res.data.message}!`)
-        setOpen(true)
+    const handleClose = success => {
+        if (success) showAlert(true)
+        setOpen(false)
     }
 
-    const handleImageSelect = e => {
-        const [file] = e.target.files
-        if (file) {
-            const reader = new FileReader()
-            const { current } = Image
-            current.file = file
-            reader.onload = e => {
-                current.src = e.target.result
-            }
-            reader.readAsDataURL(file)
-            handleImageUpload()
-        }
-    }
     return (
         <>
             <Navbar />
@@ -50,32 +26,30 @@ const Layout = ({ children }) => {
                 }}
             >
                 <main>
-                    <Collapse in={open}>
+                    <Collapse in={show}>
                         <Alert
-                            severity={severity}
+                            severity="success"
                             action={(
                                 <IconButton
                                     aria-label="close"
                                     color="inherit"
                                     size="small"
                                     onClick={() => {
-                                        setOpen(false)
+                                        showAlert(false)
                                     }}
                                 >
                                     <CloseIcon fontSize="inherit" />
                                 </IconButton>
                             )}
                         >
-                            {message}
+                            A new image was successfully uploaded!
                         </Alert>
                     </Collapse>
-                    <input ref={Input} type="file" accept="image/*" onChange={handleImageSelect} hidden />
-                    <img ref={Image} style={{ display: 'block', margin: '5rem auto' }} />
                     {children}
                     <Fab
                         color="primary"
                         aria-label="add"
-                        onClick={() => Input.current.click()}
+                        onClick={() => setOpen(true)}
                         style={{
                             position: 'fixed', bottom: '1rem', right: '1rem', color: '#fff',
                         }}
@@ -83,6 +57,7 @@ const Layout = ({ children }) => {
                         <AddIcon />
                     </Fab>
                 </main>
+                <ImageUploader open={open} handleClose={handleClose} />
             </div>
         </>
     )
