@@ -37,7 +37,7 @@ function App() {
                                 <Profile />
                             </Layout>
                         </Route>
-                        <Route path="*">
+                        <Route exact path="/">
                             <Layout>
                                 <Home />
                             </Layout>

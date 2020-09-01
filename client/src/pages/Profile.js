@@ -4,22 +4,25 @@ import { TabContext, TabList, TabPanel } from '@material-ui/lab'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
 import Feed from '../components/Feed'
+import NotFound from '../pages/404'
 import classes from '../styles/profile.module.css'
 import profile from '../assets/classic.png'
 
 const Profile = () => {
     const [tab, setTab] = useState('Feed')
-    const [user, setUser] = useState({})
+    const [user, setUser] = useState()
     const [posts, setPosts] = useState([])
     const { id } = useParams()
 
     useEffect(() => {
         const getPosts = async () => {
-            const res = await axios.get(`/user/${id}`)
-            if (res.data.success) {
+            try {
+                const res = await axios.get(`/user/${id}`)
                 setUser(res.data.user)
                 const result = await Promise.all(res.data.user.images.map(id => axios.get(`/image/${id}`)))
                 setPosts(result.map(({ data }) => data.image))
+            } catch (err) {
+                // do nothing
             }
         }
         getPosts()
@@ -68,7 +71,7 @@ const Profile = () => {
             </>
         )
     }
-    return <ProfilePage />
+    return user ? <ProfilePage /> : <NotFound />
 }
 
 export default Profile
