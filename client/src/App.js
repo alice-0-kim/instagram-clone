@@ -12,9 +12,10 @@ import './App.css'
 const theme = createMuiTheme({
     typography: {
         fontFamily: [
-            'Baloo 2',
-            'cursive',
+            'Poppins',
+            'sans-serif',
         ].join(','),
+        fontWeight: 100,
     },
     palette: {
         primary: {

@@ -39,9 +39,9 @@ export default ({ open, handleClose }) => {
 
     return (
         <Dialog open={open} onClose={handleClose} fullWidth aria-labelledby="form-dialog-title">
-            <DialogTitle id="form-dialog-title">Upload image</DialogTitle>
+            <DialogTitle id="form-dialog-title" disableTypography style={{ fontWeight: 500 }}>Upload image</DialogTitle>
             <DialogContent>
-                <DialogContentText>
+                <DialogContentText disableTypography style={{ fontSize: 14 }}>
                     To upload a new image, click on the box below to select a file.
                 </DialogContentText>
                 <Collapse in={show}>
@@ -67,8 +67,8 @@ export default ({ open, handleClose }) => {
                 <img ref={Image} style={{ display: 'block', margin: '5rem auto' }} onClick={() => Input.current.click()} />
             </DialogContent>
             <DialogActions style={{ padding: '1rem' }}>
-                <Button onClick={() => handleClose(false)} color="primary" style={{ fontWeight: 700, textTransform: 'capitalize' }}>Cancel</Button>
-                <Button onClick={handleImageUpload} color="primary" variant="contained" style={{ color: '#fff', fontWeight: 700, textTransform: 'capitalize' }}>Upload</Button>
+                <Button onClick={() => handleClose(false)} color="primary" style={{ textTransform: 'capitalize' }}>Cancel</Button>
+                <Button onClick={handleImageUpload} color="primary" variant="contained" style={{ color: '#fff', textTransform: 'capitalize' }}>Upload</Button>
             </DialogActions>
         </Dialog>
     )

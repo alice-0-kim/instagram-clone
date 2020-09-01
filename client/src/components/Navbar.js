@@ -43,7 +43,6 @@ const Navbar = () => {
                     flex: 1,
                     fontSize: 'small',
                 }}
-                margin="dense"
                 placeholder="Search username"
                 inputRef={input}
                 inputProps={{ 'aria-label': 'search google maps' }}
@@ -64,7 +63,7 @@ const Navbar = () => {
                         {user
                             ? (
                                 <>
-                                    <a href={`/${user.username}`} style={{ color: '#3fbac2', fontWeight: 700, marginRight: '1rem' }}>{user.username}</a>
+                                    <a href={`/${user.username}`} style={{ color: '#3fbac2', marginRight: '1rem' }}>{user.username}</a>
                                     <a href="/logout">
                                         <Button className={classes.button} variant="contained" color="primary" disableElevation>
                                             Log out
@@ -75,7 +74,7 @@ const Navbar = () => {
                             : (
                                 <>
                                     <a href="/new" style={{ color: '#3fbac2', marginRight: '1rem' }}>
-                                        <Button color="primary" style={{ fontWeight: 700, textTransform: 'none' }}>Sign up</Button>
+                                        <Button color="primary" style={{ textTransform: 'none' }}>Sign up</Button>
                                     </a>
                                     <a href="/login">
                                         <Button className={classes.button} variant="contained" color="primary" disableElevation>Log in</Button>
