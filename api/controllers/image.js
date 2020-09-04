@@ -33,11 +33,11 @@ createImage = async (req, res) => {
     const safeSearch = result.safeSearchAnnotation
     const face = result.faceAnnotations
     const label = result.labelAnnotations
-    const nsfwResult = nsfwChecker(safeSearch)
-    if (nsfwResult.length !== 0) {
+    const safeSearchResult = safeSearchChecker(safeSearch)
+    if (safeSearchResult.length !== 0) {
         return res.status(200).json({
             isSafe: false,
-            message: `${nsfwResult.map(x => x[0]).join(', ')}`,
+            message: `${safeSearchResult.map(x => x[0]).join(', ')}`,
         })
     }
     const params = {
@@ -57,14 +57,21 @@ createImage = async (req, res) => {
             categories,
         }
         const image = new Image(imageParam)
-        console.log(image)
         if (!image) {
             return res.status(400).json({ success: false, error: err })
         }
         await image.save()
         await User.findByIdAndUpdate(
-            ObjectId(req.user._id), { $push: { images: image._id.toString() } },
+            ObjectId(req.user._id), {
+                $push: {
+                    images: image._id.toString(),
+                },
+            },
         )
+        const params = ['faces', 'animals', 'natures', 'foods', 'others']
+        params.forEach(param => {
+            categorizer(image, param, req.user._id)
+        })
         return res.status(201).json({
             success: true,
             id: image._id,
@@ -101,9 +108,21 @@ async function query(buffer) {
     return result
 }
 
-function nsfwChecker(result) {
+function safeSearchChecker(result) {
     const arr = Object.entries(result)
-    return arr.filter(elem => elem[1] === 'VERY_LIKELY')
+    return arr.filter(elem => elem[0] !== 'spoof' && elem[1] === 'VERY_LIKELY')
+}
+
+async function categorizer(image, param, userId) {
+    if (image.categories[param]) {
+        await User.findByIdAndUpdate(
+            ObjectId(userId), {
+                $push: {
+                    [param]: image._id.toString(),
+                },
+            },
+        )
+    }
 }
 
 updateImage = (req, res) => {
