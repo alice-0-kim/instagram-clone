@@ -1,15 +1,27 @@
 import React, { useState } from 'react'
+import { useHistory } from 'react-router-dom'
 import { Collapse, Fab, IconButton } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add'
 import CloseIcon from '@material-ui/icons/Close'
 import Alert from '@material-ui/lab/Alert'
 import Navbar from './Navbar'
 import ImageUploader from './ImageUploader'
+import axios from 'axios'
 
 const Layout = ({ children }) => {
+    const history = useHistory()
     const [open, setOpen] = useState(false)
     const [show, showAlert] = useState(false)
 
+    const handleOpen = async () => {
+        try {
+            const res = await axios.get('/me')
+            if (res.data) setOpen(true)
+            else history.push('/login')
+        } catch (err) {
+            // do nothing
+        }
+    }
     const handleClose = success => {
         if (success) showAlert(true)
         setOpen(false)
@@ -49,7 +61,7 @@ const Layout = ({ children }) => {
                     <Fab
                         color="primary"
                         aria-label="add"
-                        onClick={() => setOpen(true)}
+                        onClick={handleOpen}
                         style={{
                             position: 'fixed', bottom: '1rem', right: '1rem', color: '#fff',
                         }}

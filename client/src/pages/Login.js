@@ -82,6 +82,10 @@ const Login = () => {
                     {fields.map((props, i) => (
                         <TextField key={i} variant="outlined" margin="dense" {...props} fullWidth />))}
                     <ContainedButton title="Log in" onClick={submit} />
+                    <p style={{ textAlign: 'center' }}>
+                        Don't have an account yet?
+                        <a href="/new" style={{ color: '#3fbac2', marginLeft: '1rem' }}>Sign up</a>
+                    </p>
                 </div>
             </div>
         </div>
