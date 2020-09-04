@@ -6,6 +6,7 @@ const Image = require('../models/image')
 const User = require('../models/user')
 const ObjectId = require('./helper')
 const categoryCheck = require('../utils/categoryChecker')
+
 require('dotenv').config({ path: path.join(__dirname, '.env.local') })
 
 const s3 = new AWS.S3({
@@ -61,13 +62,17 @@ createImage = async (req, res) => {
             return res.status(400).json({ success: false, error: err })
         }
         await image.save()
-        await User.findByIdAndUpdate(
-            ObjectId(req.user._id), {
-                $push: {
-                    images: image._id.toString(),
-                },
-            },
-        )
+        await User.findByIdAndUpdate(ObjectId(req.user._id), {
+            $push: {
+                images: {
+                    $each: [{
+                        id: image._id.toString(),
+                        createdAt: image.createdAt,
+                    }],
+                    $sort: { createdAt: -1 },
+                }
+            }
+        })
         const categoryList = ['faces', 'animals', 'natures', 'foods', 'others']
         categoryList.forEach(param => {
             categorizer(image, param, req.user._id)
@@ -115,13 +120,11 @@ function safeSearchChecker(result) {
 
 async function categorizer(image, param, userId) {
     if (image.categories[param]) {
-        await User.findByIdAndUpdate(
-            ObjectId(userId), {
-                $push: {
-                    [param]: image._id.toString(),
-                },
+        await User.findByIdAndUpdate(ObjectId(userId), {
+            $push: {
+                [param]: image._id.toString(),
             },
-        )
+        })
     }
 }
 

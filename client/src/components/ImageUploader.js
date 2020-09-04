@@ -41,7 +41,7 @@ export default ({ open, handleClose }) => {
         <Dialog open={open} onClose={handleClose} fullWidth aria-labelledby="form-dialog-title">
             <DialogTitle id="form-dialog-title" disableTypography style={{ fontWeight: 500 }}>Upload image</DialogTitle>
             <DialogContent>
-                <DialogContentText disableTypography style={{ fontSize: 14 }}>
+                <DialogContentText style={{ fontSize: 14 }}>
                     To upload a new image, click on the box below to select a file.
                 </DialogContentText>
                 <Collapse in={show}>

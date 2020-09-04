@@ -12,14 +12,14 @@ const Profile = () => {
     const [tab, setTab] = useState('Feed')
     const [user, setUser] = useState()
     const [posts, setPosts] = useState([])
-    const { id } = useParams()
+    const { username } = useParams()
 
     useEffect(() => {
         const getPosts = async () => {
             try {
-                const res = await axios.get(`/user/${id}`)
+                const res = await axios.get(`/user/${username}`)
                 setUser(res.data.user)
-                const result = await Promise.all(res.data.user.images.map(id => axios.get(`/image/${id}`)))
+                const result = await Promise.all(res.data.user.images.map(({ id }) => axios.get(`/image/${id}`)))
                 setPosts(result.map(({ data }) => data.image))
             } catch (err) {
                 // do nothing
