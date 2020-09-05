@@ -29,7 +29,15 @@ router.get('/logout', (req, res) => {
 })
 
 router.get('/me', (req, res) => {
-    return res.status(200).json(req.user)
+    User.findOne({ username: req.user?.username }, (err, user) => {
+        if (err) {
+            return res.status(400).json({ success: false, error: err })
+        }
+        if (!user) {
+            return res.status(404).json({ success: false, error: 'User not found' })
+        }
+        return res.status(200).json({ success: true, user })
+    }).catch(err => err)
 })
 
 router.put('/me', isAuthenticated, upload.single('myImage'), async (req, res) => {

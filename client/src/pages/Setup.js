@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react'
+import { connect } from 'react-redux'
 import {
     Button, Collapse, TextField, IconButton,
 } from '@material-ui/core'
@@ -7,6 +8,7 @@ import CloseIcon from '@material-ui/icons/Close'
 import Alert from '@material-ui/lab/Alert'
 import axios from 'axios'
 import classes from '../styles/auth.module.css'
+import { updateUser } from '../actions'
 
 const ContainedButton = ({ title, ...props }) => (
     <Button
@@ -20,7 +22,7 @@ const ContainedButton = ({ title, ...props }) => (
     </Button>
 )
 
-const Setup = () => {
+const Setup = ({ updateUser }) => {
     const history = useHistory()
     const username = useRef(null)
     const [open, setOpen] = useState(false)
@@ -34,7 +36,7 @@ const Setup = () => {
             await axios.get(`/user/${username.current.value}`)
             setOpen(true)
         } catch (err) {
-            await axios.put('/me', { username: username.current.value })
+            await updateUser({ username: username.current.value })
             history.push(`/${username.current.value}`)
         }
     }
@@ -78,4 +80,4 @@ const Setup = () => {
     return <SetupPage />
 }
 
-export default Setup
+export default connect(null, { updateUser })(Setup)

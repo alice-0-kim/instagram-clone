@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import axios from 'axios'
+import { connect } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import {
     AppBar,
@@ -10,19 +10,19 @@ import {
 } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search'
 import classes from '../styles/navbar.module.css'
+import { getUser } from '../actions'
 
-const Navbar = () => {
+const Navbar = ({ user, getUser }) => {
     const [open, setOpen] = useState(false)
-    const [user, setUser] = useState()
+    // const [user, setUser] = useState()
     const input = useRef(null)
     const history = useHistory()
 
     useEffect(() => {
-        const getUser = async () => {
-            const res = await axios.get(`/me`)
-            if (res.data) setUser(res.data)
+        const loadUser = async () => {
+            await getUser()
         }
-        getUser()
+        loadUser()
     }, [])
 
     const handleSubmit = () => {
@@ -92,4 +92,4 @@ const Navbar = () => {
     )
 }
 
-export default Navbar
+export default connect(({ user }) => user, { getUser })(Navbar)
