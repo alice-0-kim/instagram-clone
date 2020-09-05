@@ -68,8 +68,8 @@ createImage = async (req, res) => {
                 },
             },
         )
-        const params = ['faces', 'animals', 'natures', 'foods', 'others']
-        params.forEach(param => {
+        const categoryList = ['faces', 'animals', 'natures', 'foods', 'others']
+        categoryList.forEach(param => {
             categorizer(image, param, req.user._id)
         })
         return res.status(201).json({
