@@ -1,8 +1,7 @@
 import React from 'react'
 
 const Loading = () => {
-    const LoadingPage = () => <>Loading...</>
-    return <LoadingPage />
+    return <>Loading...</>
 }
 
 export default Loading
