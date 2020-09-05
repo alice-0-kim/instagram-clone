@@ -2,6 +2,7 @@ import axios from 'axios'
 
 export const SET_USER = 'SET_USER'
 export const LOAD_USER = 'LOAD_USER'
+export const USER_NOT_FOUND = 'USER_NOT_FOUND'
 
 const setUser = user => ({
     type: SET_USER,
@@ -12,6 +13,10 @@ const loadUser = () => ({
     type: LOAD_USER,
 })
 
+const userNotFound = () => ({
+    type: USER_NOT_FOUND,
+})
+
 export const getUser = (force = false) => {
     return async (dispatch, getState) => {
         const { user, profile } = getState()
@@ -20,14 +25,12 @@ export const getUser = (force = false) => {
         dispatch(loadUser())
 
         try {
+            const self = profile.loaded && user.user.username === profile.profile.username
             const res = await axios.get('/me')
             dispatch(setUser(res.data.user))
-
-            console.log(user.user.username, profile.profile.username)
-            if (user.user.username === profile.profile.username)
-                dispatch(setProfile(res.data.user))
+            if (self) dispatch(setProfile(res.data.user))
         } catch (err) {
-            // do nothing
+            dispatch(userNotFound())
         }
     }
 }
@@ -79,7 +82,7 @@ export const getProfile = (username, force = false) => {
             const res = await axios.get(`/user/${username}`)
             dispatch(setProfile(res.data.user))
         } catch (err) {
-            // do nothing
+            dispatch(userNotFound())
         }
     }
 }

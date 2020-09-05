@@ -1,7 +1,6 @@
-import { SET_USER, LOAD_USER } from '../actions'
-import { defaultState } from './helper'
+import { SET_USER, LOAD_USER, USER_NOT_FOUND } from '../actions'
 
-export default (state = defaultState, action) => {
+export default (state = {}, action) => {
     switch (action.type) {
         case SET_USER:
             return {
@@ -15,6 +14,11 @@ export default (state = defaultState, action) => {
                 ...state,
                 loading: true,
                 loaded: false,
+            }
+        case USER_NOT_FOUND:
+            return {
+                ...state,
+                loading: false,
             }
         default:
             return state

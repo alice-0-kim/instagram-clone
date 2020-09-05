@@ -14,7 +14,6 @@ import { getUser } from '../actions'
 
 const Navbar = ({ user, getUser }) => {
     const [open, setOpen] = useState(false)
-    // const [user, setUser] = useState()
     const input = useRef(null)
     const history = useHistory()
 
