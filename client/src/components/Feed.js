@@ -1,5 +1,5 @@
 import React from 'react'
-import '../styles/feed.module.css'
+import classes from '../styles/feed.module.css'
 
 const Feed = ({ posts = [] }) => (
     <div>
@@ -7,6 +7,7 @@ const Feed = ({ posts = [] }) => (
             <img
                 key={i}
                 src={imageUrl}
+                className={classes.post}
             />
         ))}
     </div>

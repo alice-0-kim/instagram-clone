@@ -30,13 +30,7 @@ const Navbar = () => {
     }
 
     const Searchbar = () => (
-        <Paper component="form" onSubmit={handleSubmit} style={{
-            margin: '0 1rem',
-            padding: '2px 4px',
-            display: 'flex',
-            alignItems: 'center',
-            width: 400,
-        }}>
+        <Paper className={classes.searchbar} component="form" onSubmit={handleSubmit}>
             <InputBase
                 style={{
                     marginLeft: '.5rem',

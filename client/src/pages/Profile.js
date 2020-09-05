@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { Tab } from '@material-ui/core'
+import React, { useState, useEffect, useRef } from 'react'
+import { Tab, Input } from '@material-ui/core'
 import { TabContext, TabList, TabPanel } from '@material-ui/lab'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
@@ -9,6 +9,8 @@ import classes from '../styles/profile.module.css'
 import profile from '../assets/classic.png'
 
 const Profile = () => {
+    const Input = useRef(null)
+    const Image = useRef(null)
     const [tab, setTab] = useState('Feed')
     const [user, setUser] = useState()
     const [posts, setPosts] = useState([])
@@ -28,6 +30,44 @@ const Profile = () => {
         getPosts()
     }, [])
 
+    const handleImageUpload = async () => {
+        const formData = new FormData()
+        formData.append('myImage', Image.current.file)
+        await axios.put('/user', formData, {
+            headers: {
+                'content-type': 'multipart/form-data',
+            },
+        })
+    }
+
+    const handleImageSelect = e => {
+        const [file] = e.target.files
+        if (file) {
+            const reader = new FileReader()
+            const { current } = Image
+            current.file = file
+            reader.onload = e => {
+                current.src = e.target.result
+            }
+            reader.readAsDataURL(file)
+            handleImageUpload()
+        }
+    }
+
+    const handleClick = () => {
+        if (user?.username === username) {
+            Input.current.click()
+        }
+    }
+
+    // const ProfileImage = () => {
+    //     return user?.username === username
+    //         ? <>
+    //             <img src={user?.imageUrl || profile} className={classes.picture} />
+    //         </>
+    //         : <img src={user?.imageUrl || profile} className={classes.picture} />
+    // }
+
     const ProfilePage = () => {
         const {
             imageUrl, givenName, username = givenName?.toLowerCase(),
@@ -36,19 +76,15 @@ const Profile = () => {
         return (
             <>
                 <div className={classes.profile}>
-                    <img
-                        src={imageUrl || profile}
-                        className={classes.picture}
-                    />
-                    <div>
+                    <input ref={Input} type="file" accept="image/*" onChange={handleImageSelect} hidden />
+                    <img ref={Image} src={imageUrl || profile} className={classes.picture} onClick={handleClick} />
+                    <div className={classes.details}>
                         <p>{username}</p>
-                        <div style={{ fontSize: 'small' }}>
-                            <p style={{ width: 200, display: 'flex', justifyContent: 'space-between' }}>
-                                <span>{`${posts.length} posts`}</span>
-                                <span>{`${followers} followers`}</span>
-                                <span>{`${following} following`}</span>
-                            </p>
-                        </div>
+                        <p style={{ fontSize: 'small' }}>
+                            <span>{`${posts.length} posts`}</span>
+                            <span>{`${followers} followers`}</span>
+                            <span>{`${following} following`}</span>
+                        </p>
                     </div>
                 </div>
                 <TabContext value={tab}>

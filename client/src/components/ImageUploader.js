@@ -64,7 +64,7 @@ export default ({ open, handleClose }) => {
                     </Alert>
                 </Collapse>
                 <input ref={Input} type="file" accept="image/*" onChange={handleImageSelect} hidden />
-                <img ref={Image} style={{ display: 'block', margin: '5rem auto' }} onClick={() => Input.current.click()} />
+                <img ref={Image} style={{ display: 'block', margin: '5rem auto', width: 150, height: 150 }} onClick={() => Input.current.click()} />
             </DialogContent>
             <DialogActions style={{ padding: '1rem' }}>
                 <Button onClick={() => handleClose(false)} color="primary" style={{ textTransform: 'capitalize' }}>Cancel</Button>
