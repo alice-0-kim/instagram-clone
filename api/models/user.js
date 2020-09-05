@@ -10,6 +10,11 @@ const user = new Schema({
     imageUrl: { type: String },
     password: String,
     images: { type: [String], default: [] },
+    animals: [],
+    natures: [],
+    faces: [],
+    foods: [],
+    others: [],
 },
 { timestamps: true })
 

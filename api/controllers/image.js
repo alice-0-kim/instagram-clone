@@ -1,9 +1,12 @@
 const path = require('path')
 const AWS = require('aws-sdk')
 
+const vision = require('@google-cloud/vision')
 const Image = require('../models/image')
 const User = require('../models/user')
 const ObjectId = require('./helper')
+const categoryCheck = require('../utils/categoryChecker')
+require('dotenv').config({ path: path.join(__dirname, '.env.local') })
 
 const s3 = new AWS.S3({
     accessKeyId: process.env.ACCESS_KEY_ID,
@@ -19,7 +22,6 @@ createImage = async (req, res) => {
             error: 'You must provide an image',
         })
     }
-
     const result = await query(req.file.buffer)
     if (result.error) {
         return res.status(404).json({
@@ -31,11 +33,11 @@ createImage = async (req, res) => {
     const safeSearch = result.safeSearchAnnotation
     const face = result.faceAnnotations
     const label = result.labelAnnotations
-    const nsfwResult = nsfwChecker(safeSearch)
-    if (nsfwResult.length !== 0) {
+    const safeSearchResult = safeSearchChecker(safeSearch)
+    if (safeSearchResult.length !== 0) {
         return res.status(200).json({
             isSafe: false,
-            message: `${nsfwResult.map(x => x[0]).join(', ')}`,
+            message: `${safeSearchResult.map(x => x[0]).join(', ')}`,
         })
     }
     const params = {
@@ -44,6 +46,7 @@ createImage = async (req, res) => {
         ACL: 'public-read',
         Body: req.file.buffer,
     }
+    const categories = categoryCheck(face, label)
     try {
         const data = await s3.upload(params).promise()
         const imageParam = {
@@ -51,13 +54,24 @@ createImage = async (req, res) => {
             face,
             label,
             author: { id: req.user._id },
+            categories,
         }
         const image = new Image(imageParam)
         if (!image) {
             return res.status(400).json({ success: false, error: err })
         }
         await image.save()
-        await User.findByIdAndUpdate(ObjectId(req.user._id), { $push: { images: image._id.toString() } })
+        await User.findByIdAndUpdate(
+            ObjectId(req.user._id), {
+                $push: {
+                    images: image._id.toString(),
+                },
+            },
+        )
+        const categoryList = ['faces', 'animals', 'natures', 'foods', 'others']
+        categoryList.forEach(param => {
+            categorizer(image, param, req.user._id)
+        })
         return res.status(201).json({
             success: true,
             id: image._id,
@@ -72,7 +86,6 @@ createImage = async (req, res) => {
 }
 
 async function query(buffer) {
-    const vision = require('@google-cloud/vision')
     const client = new vision.ImageAnnotatorClient()
     const request = {
         image: { content: buffer },
@@ -95,9 +108,21 @@ async function query(buffer) {
     return result
 }
 
-function nsfwChecker(result) {
+function safeSearchChecker(result) {
     const arr = Object.entries(result)
-    return arr.filter(elem => elem[1] === 'VERY_LIKELY')
+    return arr.filter(elem => elem[0] !== 'spoof' && elem[1] === 'VERY_LIKELY')
+}
+
+async function categorizer(image, param, userId) {
+    if (image.categories[param]) {
+        await User.findByIdAndUpdate(
+            ObjectId(userId), {
+                $push: {
+                    [param]: image._id.toString(),
+                },
+            },
+        )
+    }
 }
 
 updateImage = (req, res) => {

@@ -8,7 +8,6 @@ router.get('/google', passport.authenticate('google', { scope }))
 router.get('/google/callback', passport.authenticate('google', {
     failureRedirect: '/google'
 }), (req, res) => {
-    console.log(req.user)
     if (req.user?.username) res.redirect(`/${req.user?.username}`)
     else res.redirect('/set')
 })

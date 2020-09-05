@@ -10,6 +10,7 @@ const imageSchema = new mongoose.Schema({
             ref: 'User',
         },
     },
+    categories: {},
 },
 { timestamps: true })
 
