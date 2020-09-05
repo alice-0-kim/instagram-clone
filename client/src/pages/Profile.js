@@ -33,7 +33,7 @@ const Profile = () => {
     const handleImageUpload = async () => {
         const formData = new FormData()
         formData.append('myImage', Image.current.file)
-        await axios.put('/user', formData, {
+        await axios.put('/me', formData, {
             headers: {
                 'content-type': 'multipart/form-data',
             },
@@ -55,18 +55,11 @@ const Profile = () => {
     }
 
     const handleClick = () => {
+        // TODO: replace with current user
         if (user?.username === username) {
             Input.current.click()
         }
     }
-
-    // const ProfileImage = () => {
-    //     return user?.username === username
-    //         ? <>
-    //             <img src={user?.imageUrl || profile} className={classes.picture} />
-    //         </>
-    //         : <img src={user?.imageUrl || profile} className={classes.picture} />
-    // }
 
     const ProfilePage = () => {
         const {

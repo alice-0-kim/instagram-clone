@@ -32,13 +32,15 @@ createUser = async (req, res) => {
 
 updateUser = (req, res) => {
     const user = req.body
+
     if (!user) {
         return res.status(400).json({
             success: false,
             error: 'You must provide a body to update',
         })
     }
-    User.findByIdAndUpdate(ObjectId(req.params.id), (err, user) => {
+
+    User.findByIdAndUpdate(ObjectId(req.params.id), user, (err, user) => {
         if (!user) {
             return res.status(404).json({ err, message: 'User not found!' })
         }
