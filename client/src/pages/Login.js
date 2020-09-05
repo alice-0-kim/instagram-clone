@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom'
 import CloseIcon from '@material-ui/icons/Close'
 import Alert from '@material-ui/lab/Alert'
 import axios from 'axios'
-import classes from '../styles/login.module.css'
+import classes from '../styles/auth.module.css'
 
 const ContainedButton = ({ title, ...props }) => (
     <Button
