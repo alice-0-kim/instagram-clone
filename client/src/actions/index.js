@@ -17,45 +17,39 @@ const userNotFound = () => ({
     type: USER_NOT_FOUND,
 })
 
-export const getUser = (force = false) => {
-    return async (dispatch, getState) => {
-        const { user, profile } = getState()
-        if (!force && user.loaded) return
+export const getUser = (force = false) => async (dispatch, getState) => {
+    const { user, profile } = getState()
+    if (!force && user.loaded) return
 
-        dispatch(loadUser())
+    dispatch(loadUser())
 
-        try {
-            const self = profile.loaded && user.user.username === profile.profile.username
-            const res = await axios.get('/me')
-            dispatch(setUser(res.data.user))
-            if (self) dispatch(setProfile(res.data.user))
-        } catch (err) {
-            dispatch(userNotFound())
-        }
+    try {
+        const self = profile.loaded && user.user.username === profile.profile.username
+        const res = await axios.get('/me')
+        dispatch(setUser(res.data.user))
+        if (self) dispatch(setProfile(res.data.user))
+    } catch (err) {
+        dispatch(userNotFound())
     }
 }
 
-export const updateUser = user => {
-    return async (dispatch) => {
-        try {
-            await axios.put('/me', user)
-            dispatch(getUser(true))
-        } catch (err) {
-            // do nothing
-        }
+export const updateUser = user => async dispatch => {
+    try {
+        await axios.put('/me', user)
+        dispatch(getUser(true))
+    } catch (err) {
+        // do nothing
     }
 }
 
-export const updateProfilePic = formData => {
-    return async (dispatch) => {
-        try {
-            await axios.put('/me', formData, {
-                headers: { 'content-type': 'multipart/form-data' },
-            })
-            dispatch(getUser(true))
-        } catch (err) {
-            // do nothing
-        }
+export const updateProfilePic = formData => async dispatch => {
+    try {
+        await axios.put('/me', formData, {
+            headers: { 'content-type': 'multipart/form-data' },
+        })
+        dispatch(getUser(true))
+    } catch (err) {
+        // do nothing
     }
 }
 
@@ -68,21 +62,19 @@ const setProfile = profile => ({
 })
 
 const loadProfile = () => ({
-    type: LOAD_PROFILE
+    type: LOAD_PROFILE,
 })
 
-export const getProfile = (username, force = false) => {
-    return async (dispatch, getState) => {
-        const { profile } = getState()
-        if (!force && profile.loaded) return
+export const getProfile = (username, force = false) => async (dispatch, getState) => {
+    const { profile } = getState()
+    if (!force && profile.loaded) return
 
-        dispatch(loadProfile())
+    dispatch(loadProfile())
 
-        try {
-            const res = await axios.get(`/user/${username}`)
-            dispatch(setProfile(res.data.user))
-        } catch (err) {
-            dispatch(userNotFound())
-        }
+    try {
+        const res = await axios.get(`/user/${username}`)
+        dispatch(setProfile(res.data.user))
+    } catch (err) {
+        dispatch(userNotFound())
     }
 }

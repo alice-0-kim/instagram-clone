@@ -6,7 +6,7 @@ import {
     Button,
     SwipeableDrawer as Drawer,
     Toolbar,
-    Paper, IconButton, InputBase
+    Paper, IconButton, InputBase,
 } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search'
 import classes from '../styles/navbar.module.css'

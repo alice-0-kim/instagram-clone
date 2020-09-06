@@ -5,14 +5,16 @@ import { useParams } from 'react-router-dom'
 import { connect } from 'react-redux'
 import axios from 'axios'
 import Feed from '../components/Feed'
-import NotFound from '../pages/404'
+import NotFound from './404'
 import Loading from '../components/Loading'
 import Summary from '../components/Summary'
 import classes from '../styles/profile.module.css'
 import placeholder from '../assets/classic.png'
 import { getProfile, updateProfilePic } from '../actions'
 
-const Profile = ({ user, profile, loading, loaded, getProfile, updateProfilePic }) => {
+const Profile = ({
+    user, profile, loading, loaded, getProfile, updateProfilePic,
+}) => {
     const Input = useRef(null)
     const Image = useRef(null)
     const [tab, setTab] = useState('Feed')
@@ -65,7 +67,12 @@ const Profile = ({ user, profile, loading, loaded, getProfile, updateProfilePic 
             <>
                 <div className={classes.profile}>
                     <input ref={Input} type="file" accept="image/*" onChange={handleImageSelect} hidden />
-                    <img ref={Image} src={imageUrl || placeholder} className={classes.picture} onClick={handleClick} />
+                    <img
+                        ref={Image}
+                        src={imageUrl || placeholder}
+                        className={classes.picture}
+                        onClick={handleClick}
+                    />
                     <div className={classes.details}>
                         <p>{username}</p>
                         <p style={{ fontSize: 'small' }}>
@@ -98,4 +105,7 @@ const Profile = ({ user, profile, loading, loaded, getProfile, updateProfilePic 
     return loading ? <Loading /> : (loaded ? <ProfilePage /> : <NotFound />)
 }
 
-export default connect(({ user, profile }) => ({ ...profile, user: user.user }), { getProfile, updateProfilePic })(Profile)
+export default connect(({ user, profile }) => ({
+    ...profile,
+    user: user.user,
+}), { getProfile, updateProfilePic })(Profile)

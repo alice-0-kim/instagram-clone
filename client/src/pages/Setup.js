@@ -41,41 +41,39 @@ const Setup = ({ updateUser }) => {
         }
     }
 
-    const SetupPage = () => {
-        return (
-            <div className={classes.root}>
-                <div className={classes.branding}>
-                    <h1 className={classes.logo}>akhl</h1>
-                </div>
-                <div className={classes.form}>
-                    <div style={{ maxWidth: 375, margin: 'auto' }}>
-                        <Collapse in={open}>
-                            <Alert
-                                severity="error"
-                                action={(
-                                    <IconButton
-                                        aria-label="close"
-                                        color="inherit"
-                                        size="small"
-                                        onClick={() => {
-                                            setOpen(false)
-                                        }}
-                                    >
-                                        <CloseIcon fontSize="inherit" />
-                                    </IconButton>
-                                )}
-                            >
-                                {`Username ${username.current?.value} is not available.`}
-                            </Alert>
-                        </Collapse>
-                        <p>You're almost there...</p>
-                        <TextField variant="outlined" margin="dense" label="Username" inputRef={username} fullWidth />
-                        <ContainedButton title="Save change" onClick={submit} />
-                    </div>
+    const SetupPage = () => (
+        <div className={classes.root}>
+            <div className={classes.branding}>
+                <h1 className={classes.logo}>akhl</h1>
+            </div>
+            <div className={classes.form}>
+                <div style={{ maxWidth: 375, margin: 'auto' }}>
+                    <Collapse in={open}>
+                        <Alert
+                            severity="error"
+                            action={(
+                                <IconButton
+                                    aria-label="close"
+                                    color="inherit"
+                                    size="small"
+                                    onClick={() => {
+                                        setOpen(false)
+                                    }}
+                                >
+                                    <CloseIcon fontSize="inherit" />
+                                </IconButton>
+                            )}
+                        >
+                            {`Username ${username.current?.value} is not available.`}
+                        </Alert>
+                    </Collapse>
+                    <p>You're almost there...</p>
+                    <TextField variant="outlined" margin="dense" label="Username" inputRef={username} fullWidth />
+                    <ContainedButton title="Save change" onClick={submit} />
                 </div>
             </div>
-        )
-    }
+        </div>
+    )
 
     return <SetupPage />
 }

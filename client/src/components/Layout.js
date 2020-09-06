@@ -4,9 +4,9 @@ import { Collapse, Fab, IconButton } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add'
 import CloseIcon from '@material-ui/icons/Close'
 import Alert from '@material-ui/lab/Alert'
+import { connect } from 'react-redux'
 import Navbar from './Navbar'
 import ImageUploader from './ImageUploader'
-import { connect } from 'react-redux'
 import { getUser } from '../actions'
 
 const Layout = ({ children, getUser, user }) => {
@@ -25,7 +25,7 @@ const Layout = ({ children, getUser, user }) => {
     }
 
     useEffect(() => {
-        const loadUser = async () => await getUser()
+        const loadUser = async () => getUser()
         loadUser()
     }, [])
 

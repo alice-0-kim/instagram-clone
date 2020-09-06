@@ -1,6 +1,15 @@
 import React, { useState, useRef } from 'react'
 import { connect } from 'react-redux'
-import { Dialog, DialogTitle, DialogContent, DialogContentText, TextField, DialogActions, Button, Collapse, IconButton } from '@material-ui/core'
+import {
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogContentText,
+    DialogActions,
+    Button,
+    Collapse,
+    IconButton,
+} from '@material-ui/core'
 import CloseIcon from '@material-ui/icons/Close'
 import Alert from '@material-ui/lab/Alert'
 import axios from 'axios'
@@ -69,7 +78,13 @@ export default connect(null, { getUser })(({ open, handleClose, getUser }) => {
                     </Alert>
                 </Collapse>
                 <input ref={Input} type="file" accept="image/*" onChange={handleImageSelect} hidden />
-                <img ref={Image} style={{ display: 'block', margin: '5rem auto', width: 150, height: 150, objectFit: 'cover' }} onClick={() => Input.current.click()} />
+                <img
+                    ref={Image}
+                    style={{
+                        display: 'block', margin: '5rem auto', width: 150, height: 150, objectFit: 'cover',
+                    }}
+                    onClick={() => Input.current.click()}
+                />
             </DialogContent>
             <DialogActions style={{ padding: '1rem' }}>
                 <Button onClick={() => handleClose(false)} color="primary" style={{ textTransform: 'capitalize' }}>Cancel</Button>
