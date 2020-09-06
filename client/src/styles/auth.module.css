@@ -46,6 +46,7 @@
     align-items: center;
     display: flex;
     flex: 1;
+    padding: 1rem;
 }
 
 .logo {
@@ -58,5 +59,14 @@
 @media screen and (max-width: 768px) {
     .root {
         display: block;
+    }
+
+    .branding {
+        background-color: #fff;
+        padding: 2rem;
+    }
+
+    .logo {
+        color: #3fbac2;
     }
 }
