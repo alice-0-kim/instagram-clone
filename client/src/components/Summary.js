@@ -16,6 +16,8 @@ import Feed from './Feed'
 import classes from '../styles/summary.module.css'
 
 const Summary = ({ profile = {} }) => {
+    const mobile = useMediaQuery('(max-width:414px)')
+    const tablet = useMediaQuery('(max-width:768px)')
     const {
         images = [], animals = [], natures = [], faces = [], foods = [], others = [],
     } = profile
@@ -54,7 +56,7 @@ const Summary = ({ profile = {} }) => {
     const option = {
         defs: [],
         fill: [],
-        legends: [
+        legends: tablet ? undefined : [
             {
                 anchor: 'right',
                 direction: 'column',
@@ -122,7 +124,6 @@ const Summary = ({ profile = {} }) => {
         const [thumbnails, setThumbnails] = useState({})
         const [open, setOpen] = useState(false)
         const [posts, setPosts] = useState([])
-        const matches = useMediaQuery('(max-width:414px)')
 
         const handleOpen = selected => async () => {
             const result = await Promise.all(profile[selected].map(id => axios.get(`/image/${id}`)))
@@ -158,7 +159,7 @@ const Summary = ({ profile = {} }) => {
 
         return (
             <>
-                <GridList cols={matches ? 1 : 2} style={{ margin: '40px auto' }} cellHeight="auto" spacing={8}>
+                <GridList cols={mobile ? 1 : 2} style={{ margin: '40px auto' }} cellHeight="auto" spacing={8}>
                     {data.map(({ id, label }) => (
                         profile[label].length > 0 && (
                             <GridListTile key={id}>
