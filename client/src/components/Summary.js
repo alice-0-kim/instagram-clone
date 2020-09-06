@@ -24,31 +24,31 @@ const Summary = ({ profile = {} }) => {
             label: 'faces',
             id: 'People',
             value: faces.length,
-            color: '#3FBAC2',
+            color: '#8c96c6',
         },
         {
             label: 'foods',
             id: 'Food',
             value: foods.length,
-            color: '#E193B1',
+            color: '#9ebcda',
         },
         {
             label: 'animals',
             id: 'Animal',
             value: animals.length,
-            color: '#FF5588',
+            color: '#bfd3e6',
         },
         {
             label: 'natures',
             id: 'Nature',
             value: natures.length,
-            color: '#5EBAA3',
+            color: '#e0ecf4',
         },
         {
             label: 'others',
             id: 'Other',
             value: others.length,
-            color: '#FFD54D',
+            color: '#f7caca',
         },
     ]
     const option = {
@@ -56,10 +56,10 @@ const Summary = ({ profile = {} }) => {
         fill: [],
         legends: [
             {
-                anchor: 'bottom',
-                direction: 'row',
+                anchor: 'right',
+                direction: 'column',
                 translateX: 0,
-                translateY: 40,
+                translateY: 0,
                 itemWidth: 80,
                 itemHeight: 15,
                 itemsSpacing: 10,
@@ -69,11 +69,14 @@ const Summary = ({ profile = {} }) => {
         ],
     }
 
+    const random = n => Math.floor(Math.random() * n)
+
     const MyResponsivePieCanvas = ({ data }) => (
         <ResponsivePieCanvas
             data={data}
             margin={{ top: 40, bottom: 40 }}
-            endAngle={150}
+            startAngle={270}
+            endAngle={360}
             pixelRatio={2}
             innerRadius={0.3}
             padAngle={0.1}
@@ -107,7 +110,7 @@ const Summary = ({ profile = {} }) => {
                     legends: {
                         text: {
                             fontFamily: "Poppins",
-                            fontSize: 14,
+                            fontSize: 12,
                         }
                     },
                 }
@@ -127,6 +130,8 @@ const Summary = ({ profile = {} }) => {
             setOpen(true)
         }
 
+        const handleClose = () => setOpen(false)
+
         const Collection = ({ id, label }) => (
             <>
                 <img
@@ -141,11 +146,11 @@ const Summary = ({ profile = {} }) => {
         useEffect(() => {
             const loadThumbnails = async () => {
                 setThumbnails({
-                    ...faces.length > 0 ? { faces: await axios.get(`/image/${faces[0]}`) } : {},
-                    ...foods.length > 0 ? { foods: await axios.get(`/image/${foods[0]}`) } : {},
-                    ...natures.length > 0 ? { natures: await axios.get(`/image/${natures[0]}`) } : {},
-                    ...animals.length > 0 ? { animals: await axios.get(`/image/${animals[0]}`) } : {},
-                    ...others.length > 0 ? { others: await axios.get(`/image/${others[0]}`) } : {},
+                    ...faces.length > 0 ? { faces: await axios.get(`/image/${faces[random(faces.length)]}`) } : {},
+                    ...foods.length > 0 ? { foods: await axios.get(`/image/${foods[random(foods.length)]}`) } : {},
+                    ...natures.length > 0 ? { natures: await axios.get(`/image/${natures[random(natures.length)]}`) } : {},
+                    ...animals.length > 0 ? { animals: await axios.get(`/image/${animals[random(animals.length)]}`) } : {},
+                    ...others.length > 0 ? { others: await axios.get(`/image/${others[random(others.length)]}`) } : {},
                 })
             }
             loadThumbnails()
@@ -156,19 +161,19 @@ const Summary = ({ profile = {} }) => {
                 <GridList cols={matches ? 1 : 2} style={{ margin: '40px auto' }}>
                     {data.map(({ id, label }) => (
                         profile[label].length > 0 && (
-                            <GridListTile>
+                            <GridListTile key={id}>
                                 <Collection id={id} label={label} />
                             </GridListTile>
                         )
                     ))}
                 </GridList>
-                <Dialog open={open}>
+                <Dialog open={open} onClose={handleClose}>
                     <DialogTitle>Collections</DialogTitle>
                     <DialogContent style={{ maxWidth: 480 }}>
                         <Feed posts={posts} />
                     </DialogContent>
                     <DialogActions style={{ padding: '1rem' }}>
-                        <Button onClick={() => setOpen(false)} color="primary" variant="contained" style={{ color: '#fff', textTransform: 'capitalize' }}>Go back</Button>
+                        <Button onClick={handleClose} color="primary" variant="contained" style={{ color: '#fff', textTransform: 'capitalize' }}>Close</Button>
                     </DialogActions>
                 </Dialog>
             </>

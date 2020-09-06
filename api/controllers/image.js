@@ -54,7 +54,7 @@ createImage = async (req, res) => {
             imageUrl: data.Location,
             face,
             label,
-            author: { id: req.user._id },
+            author: { id: req.user._id, username: req.user.username },
             categories,
         }
         const image = new Image(imageParam)
