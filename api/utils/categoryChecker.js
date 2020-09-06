@@ -1,5 +1,3 @@
-const ObjectId = require("../controllers/helper")
-
 module.exports = (face, label) => {
     const ANIMALS = new Set(['animal', 'mammal', 'cat', 'dog', 'alpaca', 'ant', 'bird', 'ferret', 'fish', 'frog', 'toad', 'gecko', 'gerbil', 'goat', 'guinea pig', 'hamster', 'hedgehog', 'hermit crab', 'horse', 'iguana', 'mantis', 'mouse', 'newt', 'pig', 'rabbit', 'rat', 'salamander', 'sheep', 'snake', 'spider', 'stick-bug', 'turtle', 'tortoise'])
     const NATURES = new Set(['Canal', 'Bridge', 'Dam', 'Lighthouse', 'Island', 'Bay', 'Riverbank', 'Beach', 'Sea', 'Ocean', 'Coast', 'Ground', 'Dune', 'Desert', 'Cliff', 'Park', 'Meadow', 'Jungle', 'Forest', 'Glacier', 'Land', 'Hill', 'Field', 'Grass', 'Soil', 'Sea', 'shell', 'Mushroom', 'Pebble', 'Rock', 'Stone', 'Smoke', 'Pond', 'River', 'Wave', 'Sky', 'Water', 'Tree', 'Plant', 'Moss', 'Flower', 'Bush', 'Sand', 'Mud', 'Stars', 'Planet', 'Mine', 'Path', 'Road', 'Tunnel', 'Volcano', 'Cave'])

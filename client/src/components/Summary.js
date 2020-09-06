@@ -21,32 +21,32 @@ const Summary = ({ profile = {} }) => {
     } = profile
     const data = [
         {
-            id: 'faces',
-            label: 'People',
+            label: 'faces',
+            id: 'People',
             value: faces.length,
             color: '#3FBAC2',
         },
         {
-            id: 'foods',
-            label: 'Food',
+            label: 'foods',
+            id: 'Food',
             value: foods.length,
             color: '#E193B1',
         },
         {
-            id: 'animals',
-            label: 'Animal',
+            label: 'animals',
+            id: 'Animal',
             value: animals.length,
             color: '#FF5588',
         },
         {
-            id: 'natures',
-            label: 'Nature',
+            label: 'natures',
+            id: 'Nature',
             value: natures.length,
             color: '#5EBAA3',
         },
         {
-            id: 'others',
-            label: 'Other',
+            label: 'others',
+            id: 'Other',
             value: others.length,
             color: '#FFD54D',
         },
@@ -60,9 +60,9 @@ const Summary = ({ profile = {} }) => {
                 direction: 'row',
                 translateX: 0,
                 translateY: 40,
-                itemWidth: 60,
-                itemHeight: 14,
-                itemsSpacing: 2,
+                itemWidth: 80,
+                itemHeight: 15,
+                itemsSpacing: 10,
                 symbolSize: 14,
                 symbolShape: 'circle',
             },
@@ -73,13 +73,14 @@ const Summary = ({ profile = {} }) => {
         <ResponsivePieCanvas
             data={data}
             margin={{ top: 40, bottom: 40 }}
-            pixelRatio={1}
-            innerRadius={0.5}
-            padAngle={0.7}
+            endAngle={150}
+            pixelRatio={2}
+            innerRadius={0.3}
+            padAngle={0.1}
             cornerRadius={3}
             colors={d => d.color}
             borderColor={{ from: 'color', modifiers: [['darker', 0.6]] }}
-            radialLabelsSkipAngle={10}
+            radialLabelsSkipAngle={1}
             radialLabelsTextXOffset={6}
             radialLabelsTextColor="#333333"
             radialLabelsLinkOffset={0}
@@ -95,7 +96,22 @@ const Summary = ({ profile = {} }) => {
             defs={option.defs}
             fill={option.fill}
             legends={option.legends}
-            isInteractive
+            theme={
+                {
+                    labels: {
+                        text: {
+                            fontFamily: "Poppins",
+                            fontSize: 14,
+                        }
+                    },
+                    legends: {
+                        text: {
+                            fontFamily: "Poppins",
+                            fontSize: 14,
+                        }
+                    },
+                }
+            }
         />
     )
 
@@ -139,9 +155,9 @@ const Summary = ({ profile = {} }) => {
             <>
                 <GridList cols={matches ? 1 : 2} style={{ margin: '40px auto' }}>
                     {data.map(({ id, label }) => (
-                        profile[id].length > 0 && (
+                        profile[label].length > 0 && (
                             <GridListTile>
-                                <Collection id={id} label={label} />
+                                <Collection id={label} label={id} />
                             </GridListTile>
                         )
                     ))}
