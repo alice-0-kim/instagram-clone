@@ -76,7 +76,7 @@ const SignUp = () => {
     const SignUpPage = () => (
         <div className={classes.root}>
             <div className={classes.branding}>
-                <h1 className={classes.logo}>akhl</h1>
+                <h1 className={classes.logo}>pik</h1>
             </div>
             <div className={classes.form}>
                 <div style={{ maxWidth: 375, margin: 'auto' }}>

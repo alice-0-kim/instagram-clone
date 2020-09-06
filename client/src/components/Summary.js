@@ -123,10 +123,12 @@ const Summary = ({ profile = {} }) => {
     const Collections = () => {
         const [thumbnails, setThumbnails] = useState({})
         const [open, setOpen] = useState(false)
+        const [title, setTitle] = useState('')
         const [posts, setPosts] = useState([])
 
-        const handleOpen = selected => async () => {
+        const handleOpen = (title, selected) => async () => {
             const result = await Promise.all(profile[selected].map(id => axios.get(`/image/${id}`)))
+            setTitle(title)
             setPosts(result.map(({ data }) => data.image))
             setOpen(true)
         }
@@ -138,7 +140,7 @@ const Summary = ({ profile = {} }) => {
                 <img
                     className={classes.thumbnail}
                     src={thumbnails[label]?.data.image.imageUrl}
-                    onClick={handleOpen(label)}
+                    onClick={handleOpen(id, label)}
                 />
                 <p>{id}</p>
             </>
@@ -169,7 +171,7 @@ const Summary = ({ profile = {} }) => {
                     ))}
                 </GridList>
                 <Dialog open={open} onClose={handleClose}>
-                    <DialogTitle>Collections</DialogTitle>
+                    <DialogTitle>{title}</DialogTitle>
                     <DialogContent style={{ maxWidth: 480 }}>
                         <Feed posts={posts} />
                     </DialogContent>
