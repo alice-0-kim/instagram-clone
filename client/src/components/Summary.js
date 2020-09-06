@@ -158,7 +158,7 @@ const Summary = ({ profile = {} }) => {
 
         return (
             <>
-                <GridList cols={matches ? 1 : 2} style={{ margin: '40px auto' }}>
+                <GridList cols={matches ? 1 : 2} style={{ margin: '40px auto' }} cellHeight="auto" spacing={8}>
                     {data.map(({ id, label }) => (
                         profile[label].length > 0 && (
                             <GridListTile key={id}>
