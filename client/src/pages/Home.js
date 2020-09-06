@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import Feed from '../components/Feed'
-import classes from '../styles/home.module.css'
 
 const Home = () => {
     const [posts, setPosts] = useState([])
@@ -16,7 +15,6 @@ const Home = () => {
     }, [])
     const HomePage = () => (
         <>
-            <h1 className={classes.logo}>akhl</h1>
             <div style={{ padding: 24 }}>
                 <Feed posts={posts} />
             </div>

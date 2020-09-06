@@ -50,7 +50,7 @@ const Navbar = ({ user, getUser }) => {
         <>
             <AppBar position="static" color="transparent" className={classes.root}>
                 <Toolbar className={classes.toolbar}>
-                    <h1 className={classes.logo}>akhl</h1>
+                    <a href="/"><h1 className={classes.logo}>pik</h1></a>
                     <div style={{ display: 'flex', alignItems: 'center' }}>
                         <Searchbar />
                         {user
