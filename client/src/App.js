@@ -12,9 +12,10 @@ import './App.css'
 const theme = createMuiTheme({
     typography: {
         fontFamily: [
-            'Baloo 2',
-            'cursive',
+            'Poppins',
+            'sans-serif',
         ].join(','),
+        fontWeight: 100,
     },
     palette: {
         primary: {
@@ -32,7 +33,7 @@ function App() {
                         <Route path="/new" component={SignUp} />
                         <Route path="/set" component={Setup} />
                         <Route path="/login" component={Login} />
-                        <Route path="/:id">
+                        <Route path="/:username">
                             <Layout>
                                 <Profile />
                             </Layout>

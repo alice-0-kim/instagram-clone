@@ -1,10 +1,21 @@
 import React, { useState, useRef } from 'react'
-import { Dialog, DialogTitle, DialogContent, DialogContentText, TextField, DialogActions, Button, Collapse, IconButton } from '@material-ui/core'
+import { connect } from 'react-redux'
+import {
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogContentText,
+    DialogActions,
+    Button,
+    Collapse,
+    IconButton,
+} from '@material-ui/core'
 import CloseIcon from '@material-ui/icons/Close'
 import Alert from '@material-ui/lab/Alert'
 import axios from 'axios'
+import { getUser } from '../actions'
 
-export default ({ open, handleClose }) => {
+export default connect(null, { getUser })(({ open, handleClose, getUser }) => {
     const Input = useRef(null)
     const Image = useRef(null)
     const [show, showAlert] = useState(false)
@@ -21,7 +32,10 @@ export default ({ open, handleClose }) => {
         if (!res.data.success) {
             setMessage(res.data.message)
             showAlert(true)
-        } else handleClose(true)
+        } else {
+            await getUser(true)
+            handleClose(true)
+        }
     }
 
     const handleImageSelect = e => {
@@ -39,9 +53,9 @@ export default ({ open, handleClose }) => {
 
     return (
         <Dialog open={open} onClose={handleClose} fullWidth aria-labelledby="form-dialog-title">
-            <DialogTitle id="form-dialog-title">Upload image</DialogTitle>
+            <DialogTitle id="form-dialog-title" disableTypography style={{ fontWeight: 500 }}>Upload image</DialogTitle>
             <DialogContent>
-                <DialogContentText>
+                <DialogContentText style={{ fontSize: 14 }}>
                     To upload a new image, click on the box below to select a file.
                 </DialogContentText>
                 <Collapse in={show}>
@@ -64,12 +78,18 @@ export default ({ open, handleClose }) => {
                     </Alert>
                 </Collapse>
                 <input ref={Input} type="file" accept="image/*" onChange={handleImageSelect} hidden />
-                <img ref={Image} style={{ display: 'block', margin: '5rem auto' }} onClick={() => Input.current.click()} />
+                <img
+                    ref={Image}
+                    style={{
+                        display: 'block', margin: '5rem auto', width: 150, height: 150, objectFit: 'cover',
+                    }}
+                    onClick={() => Input.current.click()}
+                />
             </DialogContent>
             <DialogActions style={{ padding: '1rem' }}>
-                <Button onClick={() => handleClose(false)} color="primary" style={{ fontWeight: 700, textTransform: 'capitalize' }}>Cancel</Button>
-                <Button onClick={handleImageUpload} color="primary" variant="contained" style={{ color: '#fff', fontWeight: 700, textTransform: 'capitalize' }}>Upload</Button>
+                <Button onClick={() => handleClose(false)} color="primary" style={{ textTransform: 'capitalize' }}>Cancel</Button>
+                <Button onClick={handleImageUpload} color="primary" variant="contained" style={{ color: '#fff', textTransform: 'capitalize' }}>Upload</Button>
             </DialogActions>
         </Dialog>
     )
-}
+})

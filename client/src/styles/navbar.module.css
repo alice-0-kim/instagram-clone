@@ -5,6 +5,14 @@
     font-size: small;
 }
 
+.searchbar {
+    align-items: center;
+    display: flex;
+    margin: 0 1rem;
+    padding: 2px 4px;
+    width: 400px;
+}
+
 .toolbar {
     display: flex;
     justify-content: space-between;
@@ -12,7 +20,6 @@
 
 .button {
     color: #fff;
-    font-weight: 700;
     text-transform: none;
 }
 
@@ -21,4 +28,10 @@
     font-weight: 700;
     text-align: center;
     color: #3fbac2;
+}
+
+@media screen and (max-width: 768px) {
+    .searchbar {
+        display: none;
+    }
 }

@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom'
 import CloseIcon from '@material-ui/icons/Close'
 import Alert from '@material-ui/lab/Alert'
 import axios from 'axios'
-import classes from '../styles/signup.module.css'
+import classes from '../styles/auth.module.css'
 
 const ContainedButton = ({ title, ...props }) => (
     <Button
@@ -108,7 +108,7 @@ const SignUp = () => {
                     <ContainedButton title="Create account" onClick={submit} />
                     <p style={{ textAlign: 'center' }}>
                         Already have an account?
-                        <a href="/login" style={{ color: '#3fbac2' }}>Log in</a>
+                        <a href="/login" style={{ color: '#3fbac2', marginLeft: '1rem' }}>Log in</a>
                     </p>
                 </div>
             </div>

@@ -1,0 +1,15 @@
+.thumbnail { 
+    border-radius: 50%;
+    cursor: pointer;
+    display: block;
+    height: 150px;
+    margin: auto;
+    object-fit: cover;
+    width: 150px;
+}
+
+.thumbnail + p {
+    font-size: small;
+    text-align: center;
+    text-transform: uppercase;
+}

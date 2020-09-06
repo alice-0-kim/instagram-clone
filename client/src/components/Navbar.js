@@ -1,28 +1,27 @@
 import React, { useState, useEffect, useRef } from 'react'
-import axios from 'axios'
+import { connect } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import {
     AppBar,
     Button,
     SwipeableDrawer as Drawer,
     Toolbar,
-    Paper, IconButton, InputBase
+    Paper, IconButton, InputBase,
 } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search'
 import classes from '../styles/navbar.module.css'
+import { getUser } from '../actions'
 
-const Navbar = () => {
+const Navbar = ({ user, getUser }) => {
     const [open, setOpen] = useState(false)
-    const [user, setUser] = useState()
     const input = useRef(null)
     const history = useHistory()
 
     useEffect(() => {
-        const getUser = async () => {
-            const res = await axios.get(`/me`)
-            if (res.data) setUser(res.data)
+        const loadUser = async () => {
+            await getUser()
         }
-        getUser()
+        loadUser()
     }, [])
 
     const handleSubmit = () => {
@@ -30,20 +29,13 @@ const Navbar = () => {
     }
 
     const Searchbar = () => (
-        <Paper component="form" onSubmit={handleSubmit} style={{
-            margin: '0 1rem',
-            padding: '2px 4px',
-            display: 'flex',
-            alignItems: 'center',
-            width: 400,
-        }}>
+        <Paper className={classes.searchbar} component="form" onSubmit={handleSubmit}>
             <InputBase
                 style={{
                     marginLeft: '.5rem',
                     flex: 1,
                     fontSize: 'small',
                 }}
-                margin="dense"
                 placeholder="Search username"
                 inputRef={input}
                 inputProps={{ 'aria-label': 'search google maps' }}
@@ -64,7 +56,7 @@ const Navbar = () => {
                         {user
                             ? (
                                 <>
-                                    <a href={`/${user.username}`} style={{ color: '#3fbac2', fontWeight: 700, marginRight: '1rem' }}>{user.username}</a>
+                                    <a href={`/${user.username}`} style={{ color: '#3fbac2', marginRight: '1rem' }}>{user.username}</a>
                                     <a href="/logout">
                                         <Button className={classes.button} variant="contained" color="primary" disableElevation>
                                             Log out
@@ -75,7 +67,7 @@ const Navbar = () => {
                             : (
                                 <>
                                     <a href="/new" style={{ color: '#3fbac2', marginRight: '1rem' }}>
-                                        <Button color="primary" style={{ fontWeight: 700, textTransform: 'none' }}>Sign up</Button>
+                                        <Button color="primary" style={{ textTransform: 'none' }}>Sign up</Button>
                                     </a>
                                     <a href="/login">
                                         <Button className={classes.button} variant="contained" color="primary" disableElevation>Log in</Button>
@@ -99,4 +91,4 @@ const Navbar = () => {
     )
 }
 
-export default Navbar
+export default connect(({ user }) => user, { getUser })(Navbar)

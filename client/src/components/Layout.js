@@ -1,19 +1,33 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
 import { Collapse, Fab, IconButton } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add'
 import CloseIcon from '@material-ui/icons/Close'
 import Alert from '@material-ui/lab/Alert'
+import { connect } from 'react-redux'
 import Navbar from './Navbar'
 import ImageUploader from './ImageUploader'
+import { getUser } from '../actions'
 
-const Layout = ({ children }) => {
+const Layout = ({ children, getUser, user }) => {
+    const history = useHistory()
     const [open, setOpen] = useState(false)
     const [show, showAlert] = useState(false)
+
+    const handleOpen = () => {
+        if (user) setOpen(true)
+        else history.push('/login')
+    }
 
     const handleClose = success => {
         if (success) showAlert(true)
         setOpen(false)
     }
+
+    useEffect(() => {
+        const loadUser = async () => getUser()
+        loadUser()
+    }, [])
 
     return (
         <>
@@ -49,7 +63,7 @@ const Layout = ({ children }) => {
                     <Fab
                         color="primary"
                         aria-label="add"
-                        onClick={() => setOpen(true)}
+                        onClick={handleOpen}
                         style={{
                             position: 'fixed', bottom: '1rem', right: '1rem', color: '#fff',
                         }}
@@ -63,4 +77,4 @@ const Layout = ({ children }) => {
     )
 }
 
-export default Layout
+export default connect(({ user }) => user, { getUser })(Layout)

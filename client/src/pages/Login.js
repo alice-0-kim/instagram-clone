@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom'
 import CloseIcon from '@material-ui/icons/Close'
 import Alert from '@material-ui/lab/Alert'
 import axios from 'axios'
-import classes from '../styles/login.module.css'
+import classes from '../styles/auth.module.css'
 
 const ContainedButton = ({ title, ...props }) => (
     <Button
@@ -82,6 +82,10 @@ const Login = () => {
                     {fields.map((props, i) => (
                         <TextField key={i} variant="outlined" margin="dense" {...props} fullWidth />))}
                     <ContainedButton title="Log in" onClick={submit} />
+                    <p style={{ textAlign: 'center' }}>
+                        Don't have an account yet?
+                        <a href="/new" style={{ color: '#3fbac2', marginLeft: '1rem' }}>Sign up</a>
+                    </p>
                 </div>
             </div>
         </div>

@@ -1,54 +1,85 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Tab } from '@material-ui/core'
 import { TabContext, TabList, TabPanel } from '@material-ui/lab'
 import { useParams } from 'react-router-dom'
+import { connect } from 'react-redux'
 import axios from 'axios'
 import Feed from '../components/Feed'
-import NotFound from '../pages/404'
+import NotFound from './404'
+import Loading from '../components/Loading'
+import Summary from '../components/Summary'
 import classes from '../styles/profile.module.css'
-import profile from '../assets/classic.png'
+import placeholder from '../assets/classic.png'
+import { getProfile, updateProfilePic } from '../actions'
 
-const Profile = () => {
+const Profile = ({
+    user, profile, loading, loaded, getProfile, updateProfilePic,
+}) => {
+    const Input = useRef(null)
+    const Image = useRef(null)
     const [tab, setTab] = useState('Feed')
-    const [user, setUser] = useState()
     const [posts, setPosts] = useState([])
-    const { id } = useParams()
+    const { username } = useParams()
 
     useEffect(() => {
         const getPosts = async () => {
             try {
-                const res = await axios.get(`/user/${id}`)
-                setUser(res.data.user)
-                const result = await Promise.all(res.data.user.images.map(id => axios.get(`/image/${id}`)))
+                await getProfile(username)
+                const result = await Promise.all(profile.images.map(({ id }) => axios.get(`/image/${id}`)))
                 setPosts(result.map(({ data }) => data.image))
             } catch (err) {
                 // do nothing
             }
         }
         getPosts()
-    }, [])
+    }, [profile])
+
+    const handleImageUpload = async () => {
+        const formData = new FormData()
+        formData.append('myImage', Image.current.file)
+        await updateProfilePic(formData)
+    }
+
+    const handleImageSelect = e => {
+        const [file] = e.target.files
+        if (file) {
+            const reader = new FileReader()
+            const { current } = Image
+            current.file = file
+            reader.onload = e => {
+                current.src = e.target.result
+            }
+            reader.readAsDataURL(file)
+            handleImageUpload()
+        }
+    }
+
+    const handleClick = () => {
+        if (user?.username === username) Input.current.click()
+    }
 
     const ProfilePage = () => {
         const {
             imageUrl, givenName, username = givenName?.toLowerCase(),
             followers = 10, following = 10,
-        } = user
+        } = profile
         return (
             <>
                 <div className={classes.profile}>
+                    <input ref={Input} type="file" accept="image/*" onChange={handleImageSelect} hidden />
                     <img
-                        src={imageUrl || profile}
+                        ref={Image}
+                        src={imageUrl || placeholder}
                         className={classes.picture}
+                        onClick={handleClick}
                     />
-                    <div>
+                    <div className={classes.details}>
                         <p>{username}</p>
-                        <div style={{ fontSize: 'small' }}>
-                            <p style={{ width: 200, display: 'flex', justifyContent: 'space-between' }}>
-                                <span>{`${posts.length} posts`}</span>
-                                <span>{`${followers} followers`}</span>
-                                <span>{`${following} following`}</span>
-                            </p>
-                        </div>
+                        <p style={{ fontSize: 'small' }}>
+                            <span>{`${posts.length} posts`}</span>
+                            <span>{`${followers} followers`}</span>
+                            <span>{`${following} following`}</span>
+                        </p>
                     </div>
                 </div>
                 <TabContext value={tab}>
@@ -65,13 +96,16 @@ const Profile = () => {
                         <Feed posts={posts} />
                     </TabPanel>
                     <TabPanel value="Summary">
-                        Summary
+                        <Summary />
                     </TabPanel>
                 </TabContext>
             </>
         )
     }
-    return user ? <ProfilePage /> : <NotFound />
+    return loading ? <Loading /> : (loaded ? <ProfilePage /> : <NotFound />)
 }
 
-export default Profile
+export default connect(({ user, profile }) => ({
+    ...profile,
+    user: user.user,
+}), { getProfile, updateProfilePic })(Profile)
