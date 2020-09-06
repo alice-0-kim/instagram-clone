@@ -131,10 +131,10 @@ const Summary = ({ profile = {} }) => {
             <>
                 <img
                     className={classes.thumbnail}
-                    src={thumbnails[id]?.data.image.imageUrl}
-                    onClick={handleOpen(id)}
+                    src={thumbnails[label]?.data.image.imageUrl}
+                    onClick={handleOpen(label)}
                 />
-                <p>{label}</p>
+                <p>{id}</p>
             </>
         )
 
@@ -157,14 +157,14 @@ const Summary = ({ profile = {} }) => {
                     {data.map(({ id, label }) => (
                         profile[label].length > 0 && (
                             <GridListTile>
-                                <Collection id={label} label={id} />
+                                <Collection id={id} label={label} />
                             </GridListTile>
                         )
                     ))}
                 </GridList>
                 <Dialog open={open}>
                     <DialogTitle>Collections</DialogTitle>
-                    <DialogContent style={{ width: 480 }}>
+                    <DialogContent style={{ maxWidth: 480 }}>
                         <Feed posts={posts} />
                     </DialogContent>
                     <DialogActions style={{ padding: '1rem' }}>
