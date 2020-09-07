@@ -27,9 +27,8 @@ const Profile = ({
                 await getUser()
                 await getProfile(username)
                 const result = await Promise.all(profile.images.map(({ id }) => axios.get(`/image/${id}`)))
-                console.log(user?.username === username, user?.username, username)
                 if (user?.username === username) setPosts(result.map(({ data }) => data.image))
-                else setPosts(result.map(({ data }) => data.image).filter(image => { console.log(image, !image.private); return !image.private }))
+                else setPosts(result.map(({ data }) => data.image).filter(image => !image.private))
             } catch (err) {
                 // do nothing
             }

@@ -15,12 +15,13 @@ import {
 import Feed from './Feed'
 import classes from '../styles/summary.module.css'
 
-const Summary = ({ user = {}, profile = {} }) => {
+const Summary = ({ profile = {} }) => {
     const mobile = useMediaQuery('(max-width:414px)')
     const tablet = useMediaQuery('(max-width:768px)')
     const {
-        images = [], animals = [], natures = [], faces = [], foods = [], others = [],
+        animals = [], natures = [], faces = [], foods = [], others = [],
     } = profile
+    const total = animals.length + natures.length + faces.length + foods.length + others.length
     const data = [
         {
             label: 'faces',
@@ -187,7 +188,7 @@ const Summary = ({ user = {}, profile = {} }) => {
 
     return (
         <>
-            {images.length < 10
+            {total < 10
                 ? <p style={{ textAlign: 'center', fontSize: 'small', color: '#383838' }}>Not enough data collected</p>
                 : (
                     <div>
