@@ -74,50 +74,52 @@ const Summary = ({ profile = {} }) => {
     const random = n => Math.floor(Math.random() * n)
 
     const MyResponsivePieCanvas = ({ data }) => (
-        <ResponsivePieCanvas
-            data={data}
-            margin={{ top: 40, bottom: 40 }}
-            startAngle={270}
-            endAngle={360}
-            pixelRatio={2}
-            innerRadius={0.3}
-            padAngle={0.1}
-            cornerRadius={3}
-            colors={d => d.color}
-            borderColor={{ from: 'color', modifiers: [['darker', 0.6]] }}
-            radialLabelsSkipAngle={1}
-            radialLabelsTextXOffset={6}
-            radialLabelsTextColor="#333333"
-            radialLabelsLinkOffset={0}
-            radialLabelsLinkDiagonalLength={16}
-            radialLabelsLinkHorizontalLength={24}
-            radialLabelsLinkStrokeWidth={1}
-            radialLabelsLinkColor={{ from: 'color' }}
-            slicesLabelsSkipAngle={10}
-            slicesLabelsTextColor="#333333"
-            animate
-            motionStiffness={90}
-            motionDamping={15}
-            defs={option.defs}
-            fill={option.fill}
-            legends={option.legends}
-            theme={
-                {
-                    labels: {
-                        text: {
-                            fontFamily: "Poppins",
-                            fontSize: 14,
-                        }
-                    },
-                    legends: {
-                        text: {
-                            fontFamily: "Poppins",
-                            fontSize: 12,
-                        }
-                    },
+        <div style={{ height: 300 }}>
+            <ResponsivePieCanvas
+                data={data}
+                margin={{ top: 40, bottom: 40 }}
+                startAngle={270}
+                endAngle={360}
+                pixelRatio={2}
+                innerRadius={0.3}
+                padAngle={0.1}
+                cornerRadius={3}
+                colors={d => d.color}
+                borderColor={{ from: 'color', modifiers: [['darker', 0.6]] }}
+                radialLabelsSkipAngle={1}
+                radialLabelsTextXOffset={6}
+                radialLabelsTextColor="#333333"
+                radialLabelsLinkOffset={0}
+                radialLabelsLinkDiagonalLength={16}
+                radialLabelsLinkHorizontalLength={24}
+                radialLabelsLinkStrokeWidth={1}
+                radialLabelsLinkColor={{ from: 'color' }}
+                slicesLabelsSkipAngle={10}
+                slicesLabelsTextColor="#333333"
+                animate
+                motionStiffness={90}
+                motionDamping={15}
+                defs={option.defs}
+                fill={option.fill}
+                legends={option.legends}
+                theme={
+                    {
+                        labels: {
+                            text: {
+                                fontFamily: "Poppins",
+                                fontSize: 14,
+                            }
+                        },
+                        legends: {
+                            text: {
+                                fontFamily: "Poppins",
+                                fontSize: 12,
+                            }
+                        },
+                    }
                 }
-            }
-        />
+            />
+        </div>
     )
 
     const Collections = () => {
@@ -188,7 +190,7 @@ const Summary = ({ profile = {} }) => {
             {images.length < 10
                 ? <p style={{ textAlign: 'center', fontSize: 'small', color: '#383838' }}>Not enough data collected</p>
                 : (
-                    <div style={{ height: 300 }}>
+                    <div>
                         <MyResponsivePieCanvas data={data} />
                         <Collections />
                     </div>
