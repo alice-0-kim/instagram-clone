@@ -5,7 +5,7 @@ const express = require('express')
 const path = require('path')
 const cookieParser = require('cookie-parser')
 const logger = require('morgan')
-const ssl = require('heroku-ssl-redirect').default
+// const ssl = require('heroku-ssl-redirect').default
 const auth = require('./init/auth')
 const indexRouter = require('./routes/index')
 
@@ -16,7 +16,7 @@ app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'jade')
 
 async function init() {
-    app.use(ssl())
+    // app.use(ssl())
     app.use(logger('dev'))
     app.use(express.json())
     app.use(express.static(path.join(__dirname, '../client/build')))
