@@ -16,6 +16,7 @@ const s3 = new AWS.S3({
 })
 
 createImage = async (req, res) => {
+    console.log(req.body)
     const { body } = req
     if (!body) {
         return res.status(400).json({
@@ -55,6 +56,7 @@ createImage = async (req, res) => {
             face,
             label,
             author: { id: req.user._id, username: req.user.username },
+            private: Boolean(req.body.private),
             categories,
         }
         const image = new Image(imageParam)
@@ -137,7 +139,7 @@ deleteImage = (req, res) => {
 }
 
 getImages = (req, res) => {
-    Image.find({}, null, { sort: { createdAt: -1 } }, (err, posts) => {
+    Image.find({ private: false }, null, { sort: { createdAt: -1 } }, (err, posts) => {
         if (err) {
             return res.status(400).json({ success: false, error: err })
         }

@@ -70,6 +70,7 @@ export default connect(null, { getUser })(({ open, handleClose, getUser }) => {
 
     const handleImageUpload = async () => {
         const formData = new FormData()
+        formData.append('private', checked)
         formData.append('myImage', Image.current.file)
         const res = await axios.post('/image', formData, {
             headers: {
