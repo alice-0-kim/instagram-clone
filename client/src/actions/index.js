@@ -67,7 +67,7 @@ const loadProfile = () => ({
 
 export const getProfile = (username, force = false) => async (dispatch, getState) => {
     const { profile } = getState()
-    if (!force && profile.loaded) return
+    if (!force && profile.profile?.username === username) return
 
     dispatch(loadProfile())
 
