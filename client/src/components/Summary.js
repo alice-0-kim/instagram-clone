@@ -15,7 +15,7 @@ import {
 import Feed from './Feed'
 import classes from '../styles/summary.module.css'
 
-const Summary = ({ profile = {} }) => {
+const Summary = ({ user = {}, profile = {} }) => {
     const mobile = useMediaQuery('(max-width:414px)')
     const tablet = useMediaQuery('(max-width:768px)')
     const {
@@ -199,4 +199,4 @@ const Summary = ({ profile = {} }) => {
     )
 }
 
-export default connect(({ profile }) => profile)(Summary)
+export default connect(({ user, profile }) => ({ ...profile, user }))(Summary)

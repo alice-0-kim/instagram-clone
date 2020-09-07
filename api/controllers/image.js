@@ -16,7 +16,6 @@ const s3 = new AWS.S3({
 })
 
 createImage = async (req, res) => {
-    console.log(req.body)
     const { body } = req
     if (!body) {
         return res.status(400).json({
@@ -51,12 +50,13 @@ createImage = async (req, res) => {
     const categories = categoryCheck(face, label)
     try {
         const data = await s3.upload(params).promise()
+        const private = req.body.private === 'true'
         const imageParam = {
             imageUrl: data.Location,
             face,
             label,
             author: { id: req.user._id, username: req.user.username },
-            private: Boolean(req.body.private),
+            private,
             categories,
         }
         const image = new Image(imageParam)
@@ -75,10 +75,12 @@ createImage = async (req, res) => {
                 }
             }
         })
-        const categoryList = ['faces', 'animals', 'natures', 'foods', 'others']
-        categoryList.forEach(param => {
-            categorizer(image, param, req.user._id)
-        })
+        if (!private) {
+            const categoryList = ['faces', 'animals', 'natures', 'foods', 'others']
+            categoryList.forEach(param => {
+                categorizer(image, param, req.user._id)
+            })
+        }
         return res.status(201).json({
             success: true,
             id: image._id,

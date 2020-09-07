@@ -10,7 +10,7 @@ import Loading from '../components/Loading'
 import Summary from '../components/Summary'
 import classes from '../styles/profile.module.css'
 import placeholder from '../assets/classic.png'
-import { getProfile, updateProfilePic } from '../actions'
+import { getUser, getProfile, updateProfilePic } from '../actions'
 
 const Profile = ({
     user, profile, loading, loaded, getProfile, updateProfilePic,
@@ -24,6 +24,7 @@ const Profile = ({
     useEffect(() => {
         const getPosts = async () => {
             try {
+                await getUser()
                 await getProfile(username)
                 const result = await Promise.all(profile.images.map(({ id }) => axios.get(`/image/${id}`)))
                 console.log(user?.username === username, user?.username, username)
@@ -107,4 +108,4 @@ const Profile = ({
 export default connect(({ user, profile }) => ({
     ...profile,
     user: user.user,
-}), { getProfile, updateProfilePic })(Profile)
+}), { getUser, getProfile, updateProfilePic })(Profile)
