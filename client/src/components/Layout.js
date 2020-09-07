@@ -6,6 +6,7 @@ import CloseIcon from '@material-ui/icons/Close'
 import Alert from '@material-ui/lab/Alert'
 import { connect } from 'react-redux'
 import Navbar from './Navbar'
+import Footer from './Footer'
 import ImageUploader from './ImageUploader'
 import { getUser } from '../actions'
 
@@ -73,6 +74,7 @@ const Layout = ({ children, getUser, user }) => {
                 </main>
                 <ImageUploader open={open} handleClose={handleClose} />
             </div>
+            <Footer />
         </>
     )
 }

@@ -12,6 +12,7 @@ const imageSchema = new mongoose.Schema(
             },
             username: String,
         },
+        private: Boolean,
         categories: {},
     },
     { timestamps: true }

@@ -9,7 +9,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/yehee/pik">
-    <img src="images/logo.png" alt="Logo" width="80" height="80" style="object-fit: cover">
+    <img src="images/logo.png" alt="Logo" height="80">
   </a>
   <p align="center">
     A social media platform to share photos of your moments

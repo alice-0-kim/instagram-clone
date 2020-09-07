@@ -26,7 +26,8 @@ const Profile = ({
             try {
                 await getProfile(username)
                 const result = await Promise.all(profile.images.map(({ id }) => axios.get(`/image/${id}`)))
-                setPosts(result.map(({ data }) => data.image))
+                if (user?.username === username) setPosts(result.map(({ data }) => data.image))
+                else setPosts(result.map(({ data }) => data.image).filter(image => !image.private))
             } catch (err) {
                 // do nothing
             }
@@ -61,7 +62,6 @@ const Profile = ({
     const ProfilePage = () => {
         const {
             imageUrl, givenName, username = givenName?.toLowerCase(),
-            followers = 10, following = 10,
         } = profile
         return (
             <>
@@ -76,9 +76,7 @@ const Profile = ({
                     <div className={classes.details}>
                         <p>{username}</p>
                         <p style={{ fontSize: 'small' }}>
-                            <span>{`${posts.length} posts`}</span>
-                            <span>{`${followers} followers`}</span>
-                            <span>{`${following} following`}</span>
+                            {`${posts.length} posts`}
                         </p>
                     </div>
                 </div>
