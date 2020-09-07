@@ -186,7 +186,7 @@ const Summary = ({ profile = {} }) => {
     return (
         <>
             {images.length < 10
-                ? <>Not enough data collected...</>
+                ? <p style={{ textAlign: 'center', fontSize: 'small', color: '#383838' }}>Not enough data collected</p>
                 : (
                     <div style={{ height: 300 }}>
                         <MyResponsivePieCanvas data={data} />
