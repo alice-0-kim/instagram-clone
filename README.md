@@ -7,7 +7,7 @@
 ***
 ***
 *** To avoid retyping too much info. Do a search and replace for the following:
-*** yehee, instagram-clone, twitter_handle, aliceykim0828@gmail.com
+*** yehee, instagram-clone, twitter_handle, aliceykim0828@gmail.com, hyunuk
 -->
 
 
