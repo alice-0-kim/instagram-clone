@@ -1,56 +1,24 @@
-<!--
-*** Thanks for checking out this README Template. If you have a suggestion that would
-*** make this better, please fork the repo and create a pull request or simply open
-*** an issue with the tag "enhancement".
-*** Thanks again! Now go create something AMAZING! :D
-***
-***
-***
-*** To avoid retyping too much info. Do a search and replace for the following:
-*** yehee, instagram-clone, twitter_handle, aliceykim0828@gmail.com
--->
-
-
-
-
-
-<!-- PROJECT SHIELDS -->
-<!--
-*** I'm using markdown "reference style" links for readability.
-*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
-*** See the bottom of this document for the declaration of the reference variables
-*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
-*** https://www.markdownguide.org/basic-syntax/#reference-style-links
--->
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
 
 
 
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <a href="https://github.com/yehee/instagram-clone">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+  <a href="https://github.com/yehee/pik">
+    <img src="images/logo.png" alt="Logo" width="80" height="80" style="object-fit: cover">
   </a>
-
-  <h3 align="center">YOUR_TITLE</h3>
-
   <p align="center">
-    YOUR_SHORT_DESCRIPTION
+    A social media platform to share photos of your moments
     <br />
-    <a href="https://github.com/yehee/instagram-clone"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
-    <a href="https://github.com/yehee/instagram-clone">View Demo</a>
+    <a href="https://pik-akhl.herokuapp.com">View Demo</a>
     ·
-    <a href="https://github.com/yehee/instagram-clone/issues">Report Bug</a>
+    <a href="https://github.com/yehee/pik/issues">Report Bug</a>
     ·
-    <a href="https://github.com/yehee/instagram-clone/issues">Request Feature</a>
+    <a href="https://github.com/yehee/pik/issues">Request Feature</a>
   </p>
 </p>
 
@@ -78,16 +46,21 @@
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
-Here's a blank template to get started:
-**To avoid retyping too much info. Do a search and replace with your text editor for the following:**
-`yehee`, `instagram-clone`, `twitter_handle`, `aliceykim0828@gmail.com`
-
+**pik** is a photo sharing social networking service. It provides a platform for users to share their photos and gives a summary of their posts based on certain categories such as `people`, `food`, etc.
 
 ### Built With
 
-* []()
-* []()
-* []()
+* [React](https://reactjs.org/)
+* [Redux](https://redux.js.org/)
+* [Node.js](https://nodejs.org/)
+* [Mongoose](https://mongoosejs.com/)
+* [Express](https://expressjs.com/)
+* [MongoDB](https://www.mongodb.com/)
+* [AWS S3](https://aws.amazon.com/s3/)
+* [Google OAuth 2.0](https://developers.google.com/identity/protocols/oauth2)
+* [Google Cloud Vision API](https://cloud.google.com/vision_api)
+* [Material UI](https://material-ui.com/)
+* [Heroku](https://herokuapp.com/)
 
 
 
@@ -99,37 +72,40 @@ To get a local copy up and running follow these simple steps.
 ### Prerequisites
 
 This is an example of how to list things you need to use the software and how to install them.
-* npm
+* yarn
 ```sh
-npm install npm@latest -g
+brew install yarn
 ```
 
 ### Installation
 
 1. Clone the repo
 ```sh
-git clone https://github.com/yehee/instagram-clone.git
+git clone https://github.com/yehee/pik.git
 ```
 2. Install NPM packages
 ```sh
-npm install
+cd pik
+yarn
 ```
-
-
-
-<!-- USAGE EXAMPLES -->
-## Usage
-
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more examples, please refer to the [Documentation](https://example.com)_
+3. Create build distribution
+```sh
+cd client
+yarn build
+```
+4. Start the app!
+```sh
+cd ../api
+npm start
+```
+The app should be accessible at http://localhost:8080
 
 
 
 <!-- ROADMAP -->
 ## Roadmap
 
-See the [open issues](https://github.com/yehee/instagram-clone/issues) for a list of proposed features (and known issues).
+See the [open issues](https://github.com/yehee/pik/issues) for a list of proposed features (and known issues).
 
 
 
@@ -156,35 +132,27 @@ Distributed under the MIT License. See `LICENSE` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - aliceykim0828@gmail.com
+Alice Kim
+- :briefcase: LinkedIn: https://linkedin.com/in/yehee
+- :school_satchel: Website: https://yehee.github.io
+- :mailbox: aliceykim0828@gmail.com
 
-Project Link: [https://github.com/yehee/instagram-clone](https://github.com/yehee/instagram-clone)
+Hyunuk Lim
+- :briefcase: LinkedIn: https://linkedin.com/in/hyunuk
+- :school_satchel: Website: https://hyunuk.github.io
+- :mailbox: dev.hyunuk@gmail.com
 
-
-
-<!-- ACKNOWLEDGEMENTS -->
-## Acknowledgements
-
-* []()
-* []()
-* []()
-
-
+Project Link: [https://github.com/yehee/pik](https://github.com/yehee/pik)
 
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/yehee/instagram-clone.svg?style=flat-square
-[contributors-url]: https://github.com/yehee/instagram-clone/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/yehee/instagram-clone.svg?style=flat-square
-[forks-url]: https://github.com/yehee/instagram-clone/network/members
-[stars-shield]: https://img.shields.io/github/stars/yehee/instagram-clone.svg?style=flat-square
-[stars-url]: https://github.com/yehee/instagram-clone/stargazers
-[issues-shield]: https://img.shields.io/github/issues/yehee/instagram-clone.svg?style=flat-square
-[issues-url]: https://github.com/yehee/instagram-clone/issues
-[license-shield]: https://img.shields.io/github/license/yehee/instagram-clone.svg?style=flat-square
-[license-url]: https://github.com/yehee/instagram-clone/blob/master/LICENSE.txt
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=flat-square&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/yehee
+[contributors-shield]: https://img.shields.io/github/contributors/yehee/pik.svg?style=flat-square
+[contributors-url]: https://github.com/yehee/pik/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/yehee/pik.svg?style=flat-square
+[forks-url]: https://github.com/yehee/pik/network/members
+[stars-shield]: https://img.shields.io/github/stars/yehee/pik.svg?style=flat-square
+[stars-url]: https://github.com/yehee/pik/stargazers
+[issues-shield]: https://img.shields.io/github/issues/yehee/pik.svg?style=flat-square
+[issues-url]: https://github.com/yehee/pik/issues
 [product-screenshot]: images/screenshot.png
