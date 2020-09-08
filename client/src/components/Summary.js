@@ -75,7 +75,7 @@ const Summary = ({ profile = {} }) => {
     const random = n => Math.floor(Math.random() * n)
 
     const MyResponsivePieCanvas = ({ data }) => (
-        <div style={{ height: 300 }}>
+        <div style={{ height: tablet ? 250 : 300 }}>
             <ResponsivePieCanvas
                 data={data}
                 margin={{ top: 40, bottom: 40 }}
@@ -91,11 +91,11 @@ const Summary = ({ profile = {} }) => {
                 radialLabelsTextXOffset={6}
                 radialLabelsTextColor="#333333"
                 radialLabelsLinkOffset={0}
-                radialLabelsLinkDiagonalLength={16}
-                radialLabelsLinkHorizontalLength={24}
+                radialLabelsLinkDiagonalLength={tablet ? 6 : 16}
+                radialLabelsLinkHorizontalLength={tablet ? 4 : 24}
                 radialLabelsLinkStrokeWidth={1}
                 radialLabelsLinkColor={{ from: 'color' }}
-                slicesLabelsSkipAngle={10}
+                slicesLabelsSkipAngle={3}
                 slicesLabelsTextColor="#333333"
                 animate
                 motionStiffness={90}
@@ -108,7 +108,7 @@ const Summary = ({ profile = {} }) => {
                         labels: {
                             text: {
                                 fontFamily: "Poppins",
-                                fontSize: 14,
+                                fontSize: tablet ? 12 : 14,
                             }
                         },
                         legends: {
