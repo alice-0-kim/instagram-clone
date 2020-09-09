@@ -1,14 +1,25 @@
-.post {
+.root {
     width: 150px;
     height: 150px;
     margin: 5px;
-    object-fit: cover;
+    display: inline-block;
+    position: relative;
+}
+
+.post {
+    width: 150px;
+    height: 150px;
 }
 
 @media screen and (max-width: 768px) {
-    .post {
+    .root {
         width: 100%;
         height: auto;
         margin: 5px auto;
+    }
+
+    .post {
+        width: 100%;
+        height: auto;
     }
 }

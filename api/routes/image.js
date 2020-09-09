@@ -9,6 +9,7 @@ const upload = multer({
 })
 
 router.post('/image', upload.single('myImage'), ImageCtrl.createImage)
+router.delete('/image/:id', ImageCtrl.deleteImage)
 router.get('/image/:id', ImageCtrl.getImageById)
 router.get('/images', ImageCtrl.getImages)
 

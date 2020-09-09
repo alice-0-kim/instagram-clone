@@ -3,30 +3,30 @@ import { connect } from 'react-redux'
 import {
     Button,
     Collapse,
+    CircularProgress as Spinner,
     Dialog,
     DialogTitle,
     DialogContent,
     DialogContentText,
     DialogActions,
+    FormControlLabel,
     IconButton,
     Switch,
-    FormControlLabel,
-    withStyles
+    withStyles,
 } from '@material-ui/core'
 import CloseIcon from '@material-ui/icons/Close'
 import Alert from '@material-ui/lab/Alert'
-import axios from 'axios'
-import { getUser } from '../actions'
+import { getUser, postImage } from '../actions'
 
 const StyledLabel = withStyles(() => ({
     label: {
         fontSize: 'small',
         color: '#383838',
-        marginRight: '.5rem'
-    }
+        marginRight: '.5rem',
+    },
 }))(FormControlLabel)
 
-const StyledSwitch = withStyles((theme) => ({
+const StyledSwitch = withStyles(theme => ({
     root: {
         width: 28,
         height: 14,
@@ -59,9 +59,11 @@ const StyledSwitch = withStyles((theme) => ({
         backgroundColor: theme.palette.common.white,
     },
     checked: {},
-}))(Switch);
+}))(Switch)
 
-export default connect(null, { getUser })(({ open, handleClose, getUser }) => {
+const ImageUploader = ({
+    open, loading, success, error, handleClose, getUser, postImage,
+}) => {
     const Input = useRef(null)
     const Image = useRef(null)
     const [checked, setChecked] = useState(false)
@@ -69,20 +71,21 @@ export default connect(null, { getUser })(({ open, handleClose, getUser }) => {
     const [message, setMessage] = useState('')
 
     const handleImageUpload = async () => {
+        if (!Image.current.file) {
+            setMessage('You didn\'t select an image!')
+            showAlert(true)
+            return
+        }
         const formData = new FormData()
         formData.append('private', checked)
         formData.append('myImage', Image.current.file)
-        const res = await axios.post('/image', formData, {
-            headers: {
-                'content-type': 'multipart/form-data',
-            },
-        })
-        if (!res.data.success) {
-            setMessage(res.data.message)
-            showAlert(true)
-        } else {
+        await postImage(formData)
+        if (success) {
             await getUser(true)
             handleClose(true)
+        } else {
+            setMessage(`You violated ${error}!`)
+            showAlert(true)
         }
     }
 
@@ -124,7 +127,7 @@ export default connect(null, { getUser })(({ open, handleClose, getUser }) => {
                             </IconButton>
                         )}
                     >
-                        {`You violated ${message}!`}
+                        {message}
                     </Alert>
                 </Collapse>
                 <input ref={Input} type="file" accept="image/*" onChange={handleImageSelect} hidden />
@@ -143,8 +146,12 @@ export default connect(null, { getUser })(({ open, handleClose, getUser }) => {
             </DialogContent>
             <DialogActions style={{ padding: '1rem' }}>
                 <Button onClick={() => handleClose(false)} color="primary" style={{ textTransform: 'capitalize' }}>Cancel</Button>
-                <Button onClick={handleImageUpload} color="primary" variant="contained" style={{ color: '#fff', textTransform: 'capitalize' }}>Upload</Button>
+                <Button onClick={handleImageUpload} color="primary" variant="contained" disabled={loading} style={{ color: '#fff', textTransform: 'capitalize' }}>
+                    {loading ? <Spinner size={20} /> : 'Upload'}
+                </Button>
             </DialogActions>
         </Dialog>
     )
-})
+}
+
+export default connect(({ image }) => image, { getUser, postImage })(ImageUploader)

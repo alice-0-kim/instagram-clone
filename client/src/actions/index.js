@@ -78,3 +78,51 @@ export const getProfile = (username, force = false) => async (dispatch, getState
         dispatch(userNotFound())
     }
 }
+
+export const LOADING = 'LOADING'
+export const SUCCESS = 'SUCCESS'
+export const FAILURE = 'FAILURE'
+
+const loading = () => ({
+    type: LOADING,
+})
+
+const success = () => ({
+    type: SUCCESS,
+})
+
+const failure = error => ({
+    type: FAILURE,
+    error,
+})
+
+export const postImage = formData => async dispatch => {
+    try {
+        dispatch(loading())
+        const res = await axios.post('/image', formData, {
+            headers: { 'content-type': 'multipart/form-data' },
+        })
+        if (res.data.success) {
+            dispatch(success())
+        } else {
+            dispatch(failure(res.data.message))
+        }
+    } catch (err) {
+        // do nothing
+    }
+}
+
+export const deleteImage = id => async dispatch => {
+    try {
+        dispatch(loading())
+        const res = await axios.delete(`/image/${id}`)
+        if (res.data.success) {
+            dispatch(getUser(true))
+            dispatch(success())
+        } else {
+            dispatch(failure(res.data.message))
+        }
+    } catch (err) {
+        // do nothing
+    }
+}

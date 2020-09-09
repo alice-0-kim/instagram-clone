@@ -1,21 +1,16 @@
 import React from 'react'
-import classes from '../styles/feed.module.css'
-import { useHistory } from 'react-router-dom'
+import { connect } from 'react-redux'
+import Image from './Image'
+import Loading from './Loading'
 
-const Feed = ({ posts = [] }) => {
-    const history = useHistory()
+const Feed = ({ loading, posts = [] }) => {
     return (
-        <div>
-            {posts.map(({ imageUrl, author }, i) => (
-                <img
-                    key={i}
-                    src={imageUrl}
-                    className={classes.post}
-                    onClick={() => history.push(author.username)}
-                />
-            ))}
-        </div>
+        loading
+            ? <Loading />
+            : <div>
+                {posts.map((props, i) => <Image key={i} {...props} />)}
+            </div>
     )
 }
 
-export default Feed
+export default connect(({ image }) => image)(Feed)

@@ -107,15 +107,15 @@ const Summary = ({ profile = {} }) => {
                     {
                         labels: {
                             text: {
-                                fontFamily: "Poppins",
+                                fontFamily: 'Poppins',
                                 fontSize: tablet ? 12 : 14,
-                            }
+                            },
                         },
                         legends: {
                             text: {
-                                fontFamily: "Poppins",
+                                fontFamily: 'Poppins',
                                 fontSize: 12,
-                            }
+                            },
                         },
                     }
                 }
@@ -175,7 +175,7 @@ const Summary = ({ profile = {} }) => {
                 </GridList>
                 <Dialog open={open} onClose={handleClose}>
                     <DialogTitle>{title}</DialogTitle>
-                    <DialogContent style={{ maxWidth: 480 }}>
+                    <DialogContent style={{ maxWidth: 495 }}>
                         <Feed posts={posts} />
                     </DialogContent>
                     <DialogActions style={{ padding: '1rem' }}>

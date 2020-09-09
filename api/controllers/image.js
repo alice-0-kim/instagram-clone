@@ -136,19 +136,40 @@ updateImage = (req, res) => {
 
 }
 
-deleteImage = (req, res) => {
-
+deleteImage = async (req, res) => {
+    try {
+        const image = await Image.findByIdAndDelete(ObjectId(req.params.id))
+        if (!image) {
+            return res.status(404).json({ success: false, error: 'Image not found' })
+        }
+        const user = await User.findByIdAndUpdate(ObjectId(image.author.id), {
+            $pull: {
+                images: { id: req.params.id },
+                faces: req.params.id,
+                foods: req.params.id,
+                animals: req.params.id,
+                natures: req.params.id,
+                others: req.params.id,
+            }
+        })
+        if (!user) {
+            return res.status(404).json({ success: false, error: 'User not found' })
+        }
+        return res.status(200).json({ success: true, image })
+    } catch (err) {
+        return res.status(400).json({ success: false, error: err })
+    }
 }
 
 getImages = (req, res) => {
-    Image.find({ private: false }, null, { sort: { createdAt: -1 } }, (err, posts) => {
+    Image.find({ private: false }, null, { sort: { createdAt: -1 } }, (err, images) => {
         if (err) {
             return res.status(400).json({ success: false, error: err })
         }
-        if (!posts.length) {
+        if (!images.length) {
             return res.status(404).json({ success: false, error: 'Image not found' })
         }
-        return res.status(200).json({ success: true, posts })
+        return res.status(200).json({ success: true, images })
     }).catch(err => err)
 }
 
