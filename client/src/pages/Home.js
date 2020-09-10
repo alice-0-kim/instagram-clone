@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { IconButton } from '@material-ui/core'
-import { RefreshOutlined } from '@material-ui/icons'
+import { RefreshRounded } from '@material-ui/icons'
 import axios from 'axios'
 import { sampleSize } from 'lodash'
 import Feed from '../components/Feed'
@@ -32,7 +32,7 @@ const Home = () => {
                 <h1 className={classes.logo}>pik</h1>
                 <p style={{ fontSize: 'small', textAlign: 'center', color: '#383838' }}>pik · your · moment</p>
                 <IconButton onClick={handleRefresh} style={{ display: 'block', margin: '1rem auto' }}>
-                    <RefreshOutlined color="primary" />
+                    <RefreshRounded color="primary" />
                 </IconButton>
                 <Feed posts={posts} />
             </div>
