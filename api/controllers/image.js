@@ -1,4 +1,5 @@
 const path = require('path')
+const sharp = require('sharp')
 const AWS = require('aws-sdk')
 
 const vision = require('@google-cloud/vision')
@@ -41,18 +42,20 @@ createImage = async (req, res) => {
             message: `${safeSearchResult.map(x => x[0]).join(', ')}`,
         })
     }
-    const params = {
-        Bucket: 'akhl',
-        Key: `images/${new Date().valueOf() + path.extname(req.file.originalname)}`,
-        ACL: 'public-read',
-        Body: req.file.buffer,
-    }
-    const categories = categoryCheck(face, label)
     try {
-        const data = await s3.upload(params).promise()
+        const categories = categoryCheck(face, label)
         const private = req.body.private === 'true'
         const imageParam = {
-            imageUrl: data.Location,
+            imageUrl: await uploadImage(
+                'images',
+                req.file.originalname,
+                req.file.buffer
+            ),
+            thumbnail: await uploadImage(
+                'thumbnails',
+                req.file.originalname,
+                await sharp(req.file.buffer).resize(150).toBuffer()
+            ),
             face,
             label,
             author: { id: req.user._id, username: req.user.username },
@@ -92,48 +95,6 @@ createImage = async (req, res) => {
             message: 'Image not created!',
         })
     }
-}
-
-async function query(buffer) {
-    const client = new vision.ImageAnnotatorClient()
-    const request = {
-        image: { content: buffer },
-        features: [
-            {
-                maxResults: 50,
-                type: 'FACE_DETECTION',
-            },
-            {
-                maxResults: 50,
-                type: 'SAFE_SEARCH_DETECTION',
-            },
-            {
-                maxResults: 50,
-                type: 'LABEL_DETECTION',
-            },
-        ],
-    }
-    const [result] = await client.annotateImage(request)
-    return result
-}
-
-function safeSearchChecker(result) {
-    const arr = Object.entries(result)
-    return arr.filter(elem => elem[0] !== 'spoof' && elem[1] === 'VERY_LIKELY')
-}
-
-async function categorizer(image, param, userId) {
-    if (image.categories[param]) {
-        await User.findByIdAndUpdate(ObjectId(userId), {
-            $push: {
-                [param]: image._id.toString(),
-            },
-        })
-    }
-}
-
-updateImage = (req, res) => {
-
 }
 
 deleteImage = async (req, res) => {
@@ -185,9 +146,57 @@ getImageById = (req, res) => {
     }).catch(err => err)
 }
 
+async function query(buffer) {
+    const client = new vision.ImageAnnotatorClient()
+    const request = {
+        image: { content: buffer },
+        features: [
+            {
+                maxResults: 50,
+                type: 'FACE_DETECTION',
+            },
+            {
+                maxResults: 50,
+                type: 'SAFE_SEARCH_DETECTION',
+            },
+            {
+                maxResults: 50,
+                type: 'LABEL_DETECTION',
+            },
+        ],
+    }
+    const [result] = await client.annotateImage(request)
+    return result
+}
+
+function safeSearchChecker(result) {
+    const arr = Object.entries(result)
+    return arr.filter(elem => elem[0] !== 'spoof' && elem[1] === 'VERY_LIKELY')
+}
+
+async function categorizer(image, param, userId) {
+    if (image.categories[param]) {
+        await User.findByIdAndUpdate(ObjectId(userId), {
+            $push: {
+                [param]: image._id.toString(),
+            },
+        })
+    }
+}
+
+async function uploadImage(type, name, buffer) {
+    const params = {
+        Bucket: 'akhl',
+        Key: `${type}/${new Date().valueOf() + path.extname(name)}`,
+        ACL: 'public-read',
+        Body: buffer,
+    }
+    const { Location } = await s3.upload(params).promise()
+    return Location
+}
+
 module.exports = {
     createImage,
-    updateImage,
     deleteImage,
     getImageById,
     getImages,

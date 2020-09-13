@@ -82,6 +82,7 @@ export const getProfile = (username, force = false) => async (dispatch, getState
 export const LOADING = 'LOADING'
 export const SUCCESS = 'SUCCESS'
 export const FAILURE = 'FAILURE'
+export const SET = 'SET'
 
 const loading = () => ({
     type: LOADING,
@@ -94,6 +95,11 @@ const success = () => ({
 const failure = error => ({
     type: FAILURE,
     error,
+})
+
+const setImages = images => ({
+    type: SET,
+    images,
 })
 
 export const postImage = formData => async dispatch => {
@@ -118,6 +124,21 @@ export const deleteImage = id => async dispatch => {
         const res = await axios.delete(`/image/${id}`)
         if (res.data.success) {
             dispatch(getUser(true))
+            dispatch(success())
+        } else {
+            dispatch(failure(res.data.message))
+        }
+    } catch (err) {
+        // do nothing
+    }
+}
+
+export const getImages = () => async dispatch => {
+    try {
+        dispatch(loading())
+        const res = await axios.get('/images')
+        if (res.data.images) {
+            dispatch(setImages(res.data.images))
             dispatch(success())
         } else {
             dispatch(failure(res.data.message))

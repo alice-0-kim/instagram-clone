@@ -1,29 +1,21 @@
 import React, { useEffect, useState } from 'react'
+import { connect } from 'react-redux'
 import { IconButton } from '@material-ui/core'
 import { RefreshRounded } from '@material-ui/icons'
-import axios from 'axios'
 import { sampleSize } from 'lodash'
 import Feed from '../components/Feed'
+import Loading from '../components/Loading'
 import classes from '../styles/navbar.module.css'
+import { getImages } from '../actions'
 
-const Home = () => {
-    const [images, setImages] = useState([])
+const Home = ({ loading, getImages, images }) => {
     const [posts, setPosts] = useState([])
+    const handleRefresh = () => setPosts(sampleSize(images, 9))
 
     useEffect(() => {
-        const getPosts = async () => {
-            const res = await axios.get('/images')
-            if (res.data.images) {
-                setImages(res.data.images)
-            }
-        }
+        const getPosts = async () => getImages()
         getPosts()
     }, [])
-
-    const handleRefresh = () => {
-        setPosts(sampleSize(images, 9))
-    }
-
     useEffect(handleRefresh, [images])
 
     const HomePage = () => (
@@ -38,7 +30,7 @@ const Home = () => {
             </div>
         </>
     )
-    return <HomePage />
+    return loading ? <Loading /> : <HomePage />
 }
 
-export default Home
+export default connect(({ image }) => image, { getImages })(Home)

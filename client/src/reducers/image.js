@@ -1,4 +1,6 @@
-import { LOADING, SUCCESS, FAILURE } from '../actions'
+import {
+    LOADING, SUCCESS, FAILURE, SET,
+} from '../actions'
 
 export default (state = { loading: false, success: true }, action) => {
     switch (action.type) {
@@ -19,6 +21,11 @@ export default (state = { loading: false, success: true }, action) => {
             loading: false,
             success: false,
             error: action.error,
+        }
+    case SET:
+        return {
+            ...state,
+            images: action.images,
         }
     default:
         return state
