@@ -1,30 +1,35 @@
-import React, { useRef } from 'react'
+import React, { useState, useRef } from 'react'
 import { connect } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import { useHoverDirty } from 'react-use';
+import { useHoverDirty } from 'react-use'
+import DeleteIcon from '@material-ui/icons/DeleteOutline'
 import classes from '../styles/feed.module.css'
-import DeleteIcon from '@material-ui/icons/DeleteOutline';
 import { deleteImage } from '../actions'
 
-const Image = ({ user, _id, imageUrl, author, deleteImage }) => {
-    const ref = useRef(null)
-    const isHovering = useHoverDirty(ref)
+const Image = ({
+    user, _id, imageUrl, thumbnail = imageUrl, author, deleteImage,
+}) => {
+    const [loaded, setLoaded] = useState(false)
+    const Root = useRef(null)
+    const Image = useRef(null)
+    const isHovering = useHoverDirty(Root)
     const history = useHistory()
 
     const handleClick = async e => {
         e.preventDefault()
-        console.log(_id)
         await deleteImage(_id)
     }
 
     return (
-        <div ref={ref} className={classes.root}>
+        <div ref={Root} className={classes.root}>
             <img
-                src={imageUrl}
+                ref={Image}
+                src={loaded ? imageUrl : thumbnail}
                 className={classes.post}
                 onClick={() => history.push(author.username)}
+                onLoad={() => setLoaded(true)}
                 style={{
-                    filter: isHovering ? 'brightness(70%)' : 'brightness(100%)',
+                    filter: loaded ? `brightness(${isHovering ? 70 : 100}%)` : 'blur(4px)',
                 }}
             />
             <DeleteIcon
