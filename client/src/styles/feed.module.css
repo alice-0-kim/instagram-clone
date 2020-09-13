@@ -10,8 +10,6 @@
     width: 150px;
     height: 150px;
     object-fit: cover;
-    /* background-size: cover;
-    filter: blur(10px); */
 }
 
 @media screen and (max-width: 768px) {

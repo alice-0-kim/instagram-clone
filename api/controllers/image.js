@@ -103,6 +103,8 @@ deleteImage = async (req, res) => {
         if (!image) {
             return res.status(404).json({ success: false, error: 'Image not found' })
         }
+        await s3.deleteObject({ Bucket: 'akhl', Key: `images/${image.imageUrl.split('/').pop()}` })
+        await s3.deleteObject({ Bucket: 'akhl', Key: `thumbnails/${image.thumbnail.split('/').pop()}` })
         const user = await User.findByIdAndUpdate(ObjectId(image.author.id), {
             $pull: {
                 images: { id: req.params.id },

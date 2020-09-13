@@ -29,7 +29,6 @@ const Image = ({
                 onClick={() => history.push(author.username)}
                 onLoad={() => setLoaded(true)}
                 style={{
-                    // background: `url(${thumbnail}) no-repeat scroll 0 0`,
                     filter: loaded ? `brightness(${isHovering ? 70 : 100}%)` : 'blur(4px)',
                 }}
             />
