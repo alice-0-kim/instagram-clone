@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
-import { ResponsivePieCanvas } from '@nivo/pie'
 import axios from 'axios'
 import {
     Dialog,
@@ -13,11 +12,12 @@ import {
     useMediaQuery,
 } from '@material-ui/core'
 import Feed from './Feed'
+import PieChart from './PieChart'
 import classes from '../styles/summary.module.css'
 
 const Summary = ({ profile = {} }) => {
     const mobile = useMediaQuery('(max-width:414px)')
-    const tablet = useMediaQuery('(max-width:768px)')
+    // const tablet = useMediaQuery('(max-width:768px)')
     const {
         animals = [], natures = [], faces = [], foods = [], others = [],
     } = profile
@@ -54,74 +54,8 @@ const Summary = ({ profile = {} }) => {
             color: '#f7caca',
         },
     ]
-    const option = {
-        defs: [],
-        fill: [],
-        legends: tablet ? undefined : [
-            {
-                anchor: 'right',
-                direction: 'column',
-                translateX: 0,
-                translateY: 0,
-                itemWidth: 80,
-                itemHeight: 15,
-                itemsSpacing: 10,
-                symbolSize: 14,
-                symbolShape: 'circle',
-            },
-        ],
-    }
 
     const random = n => Math.floor(Math.random() * n)
-
-    const MyResponsivePieCanvas = ({ data }) => (
-        <div style={{ height: tablet ? 250 : 300 }}>
-            <ResponsivePieCanvas
-                data={data}
-                margin={{ top: 40, bottom: 40 }}
-                startAngle={270}
-                endAngle={360}
-                pixelRatio={2}
-                innerRadius={0.3}
-                padAngle={0.1}
-                cornerRadius={3}
-                colors={d => d.color}
-                borderColor={{ from: 'color', modifiers: [['darker', 0.6]] }}
-                radialLabelsSkipAngle={1}
-                radialLabelsTextXOffset={6}
-                radialLabelsTextColor="#333333"
-                radialLabelsLinkOffset={0}
-                radialLabelsLinkDiagonalLength={tablet ? 6 : 16}
-                radialLabelsLinkHorizontalLength={tablet ? 4 : 24}
-                radialLabelsLinkStrokeWidth={1}
-                radialLabelsLinkColor={{ from: 'color' }}
-                slicesLabelsSkipAngle={3}
-                slicesLabelsTextColor="#333333"
-                animate
-                motionStiffness={90}
-                motionDamping={15}
-                defs={option.defs}
-                fill={option.fill}
-                legends={option.legends}
-                theme={
-                    {
-                        labels: {
-                            text: {
-                                fontFamily: 'Poppins',
-                                fontSize: tablet ? 12 : 14,
-                            },
-                        },
-                        legends: {
-                            text: {
-                                fontFamily: 'Poppins',
-                                fontSize: 12,
-                            },
-                        },
-                    }
-                }
-            />
-        </div>
-    )
 
     const Collections = () => {
         const [thumbnails, setThumbnails] = useState({})
@@ -192,7 +126,7 @@ const Summary = ({ profile = {} }) => {
                 ? <p style={{ textAlign: 'center', fontSize: 'small', color: '#383838' }}>Not enough data collected</p>
                 : (
                     <div>
-                        <MyResponsivePieCanvas data={data} />
+                        <PieChart data={data} />
                         <Collections />
                     </div>
                 )}
