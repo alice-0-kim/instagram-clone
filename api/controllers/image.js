@@ -5,7 +5,7 @@ const AWS = require('aws-sdk')
 const vision = require('@google-cloud/vision')
 const Image = require('../models/image')
 const User = require('../models/user')
-const ObjectId = require('./helper')
+const ObjectId = require('./util')
 const categoryCheck = require('../utils/categoryChecker')
 
 require('dotenv').config({ path: path.join(__dirname, '.env.local') })
