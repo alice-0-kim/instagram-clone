@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import Albums from './Albums'
+import { Moments, Palette } from './library'
 import Collections from './Collections'
 import PieChart from './PieChart'
 
@@ -22,7 +22,8 @@ const Summary = ({ profile = {} }) => {
                 : (
                     <div>
                         <PieChart data={data} />
-                        <Albums profile={profile} />
+                        <Moments title="Happy moments" type="" profile={profile} />
+                        <Palette title="Palette" profile={profile} />
                         <Collections data={data} profile={profile} />
                     </div>
                 )}

@@ -15,6 +15,7 @@ const imageSchema = new mongoose.Schema(
         },
         private: Boolean,
         categories: {},
+        dominantColor: [],
     },
     { timestamps: true }
 )

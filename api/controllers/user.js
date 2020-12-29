@@ -1,5 +1,5 @@
 const User = require('../models/user')
-const ObjectId = require('./util')
+const { ObjectId } = require('./util')
 
 createUser = async (req, res) => {
     const { body } = req

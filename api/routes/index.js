@@ -10,7 +10,7 @@ const user = require('./user')
 const image = require('./image')
 
 const User = require('../models/user')
-const ObjectId = require('../controllers/util')
+const { ObjectId } = require('../controllers/util')
 const isAuthenticated = require('../utils/isAuthenticated')
 const upload = multer({
     storage: multer.memoryStorage(), limits: { filesize: 1000 * 1000 * 12 },

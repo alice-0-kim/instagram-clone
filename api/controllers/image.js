@@ -5,7 +5,7 @@ const AWS = require('aws-sdk')
 const vision = require('@google-cloud/vision')
 const Image = require('../models/image')
 const User = require('../models/user')
-const ObjectId = require('./util')
+const { ObjectId, HSL } = require('./util')
 const categoryCheck = require('../utils/categoryChecker')
 
 require('dotenv').config({ path: path.join(__dirname, '.env.local') })
@@ -35,6 +35,7 @@ createImage = async (req, res) => {
     const safeSearch = result.safeSearchAnnotation
     const face = result.faceAnnotations
     const label = result.labelAnnotations
+    const [dominantColor] = result.imagePropertiesAnnotation.dominantColors.colors
     const safeSearchResult = safeSearchChecker(safeSearch)
     if (safeSearchResult.length !== 0) {
         return res.status(200).json({
@@ -61,7 +62,9 @@ createImage = async (req, res) => {
             author: { id: req.user._id, username: req.user.username },
             private,
             categories,
+            dominantColor: HSL(dominantColor),
         }
+        console.log(imageParam)
         const image = new Image(imageParam)
         if (!image) {
             return res.status(400).json({ success: false, error: err })
@@ -165,6 +168,9 @@ async function query(buffer) {
                 maxResults: 50,
                 type: 'LABEL_DETECTION',
             },
+            {
+                type: 'IMAGE_PROPERTIES',
+            }
         ],
     }
     const [result] = await client.annotateImage(request)

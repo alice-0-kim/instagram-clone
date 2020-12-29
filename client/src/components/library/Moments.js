@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import styled from 'styled-components'
 import axios from 'axios'
+import styled from 'styled-components'
 import {
     Dialog,
     DialogContent,
@@ -8,16 +8,17 @@ import {
     DialogActions,
     Button,
 } from '@material-ui/core'
-import Feed from './Feed'
+import Feed from '../Feed'
 
 const Album = styled.div`
     background: ${({ to }) => to};
     background: ${({ from, to }) => `-webkit-linear-gradient(to right, ${from}, ${to})`};
     background: ${({ from, to }) => `linear-gradient(to right, ${from}, ${to})`};
-    height: 100px;
     border-radius: 5px;
+    cursor: pointer;
     display: flex;
     flex-direction: column-reverse;
+    height: 100px;
     margin: 10px auto;
     span {
         color: whitesmoke;
@@ -27,23 +28,18 @@ const Album = styled.div`
     }
 `
 
-const Albums = ({ profile }) => {
+const CloseButton = styled(Button)`
+    color: #fff;
+    text-transform: capitalize;
+`
+
+const Moments = ({ title, type, profile }) => {
     const [open, setOpen] = useState(false)
-    const [title, setTitle] = useState('')
     const [posts, setPosts] = useState([])
 
-    const getResult = (selected) => {
-        if (selected === 'all')
-            return Promise.all(profile.images.map(({ id }) => axios.get(`/image/${id}`)))
-        else
-            return Promise.all(profile[selected].map(id => axios.get(`/image/${id}`)))
-    }
-
-    const handleOpen = (title, selected) => async () => {
-        // const result = await Promise.all(profile[selected].map(id => axios.get(`/image/${id}`)))
-        const result = await getResult(selected)
-        console.log(result)
-        setTitle(title)
+    const handleOpen = async () => {
+        const result = await Promise.all(profile['faces'].map(id => axios.get(`/image/${id}`)))
+        // TODO: filter by type
         setPosts(result.map(({ data }) => data.image))
         setOpen(true)
     }
@@ -52,11 +48,8 @@ const Albums = ({ profile }) => {
 
     return (
         <>
-            <Album from="#ffa751" to="#ffe259" onClick={handleOpen('Happy moments', 'faces')}>
-                <span>Happy moments</span>
-            </Album>
-            <Album from="#ffa751" to="#ffe259" onClick={handleOpen('Color board', 'all')}>
-                <span>Color board</span>
+            <Album from="#ffa751" to="#ffe259" onClick={handleOpen}>
+                <span>{title}</span>
             </Album>
             <Dialog open={open} onClose={handleClose}>
                 <DialogTitle>{title}</DialogTitle>
@@ -64,11 +57,11 @@ const Albums = ({ profile }) => {
                     <Feed posts={posts} />
                 </DialogContent>
                 <DialogActions style={{ padding: '1rem' }}>
-                    <Button onClick={handleClose} color="primary" variant="contained" style={{ color: '#fff', textTransform: 'capitalize' }}>Close</Button>
+                    <CloseButton onClick={handleClose} color="primary" variant="contained">Close</CloseButton>
                 </DialogActions>
             </Dialog>
         </>
     )
 }
 
-export default Albums
+export default Moments
