@@ -17,7 +17,7 @@ const Profile = ({
 }) => {
     const Input = useRef(null)
     const Image = useRef(null)
-    const [tab, setTab] = useState('Feed')
+    const [tab, setTab] = useState('Summary')
     const [posts, setPosts] = useState([])
     const { username } = useParams()
 
