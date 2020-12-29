@@ -40,9 +40,9 @@ const Palette = ({ title, profile }) => {
 
     const sortByColor = (a, b) => {
         if (a.dominantColor > b.dominantColor)
-            return -1
-        if (a.dominantColor < b.dominantColor)
             return 1
+        if (a.dominantColor < b.dominantColor)
+            return -1
         return 0
     }
 
