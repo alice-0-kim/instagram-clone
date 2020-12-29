@@ -4,7 +4,7 @@ import { IconButton } from '@material-ui/core'
 import { RefreshRounded } from '@material-ui/icons'
 import { sampleSize } from 'lodash'
 import Feed from '../components/Feed'
-import Loading from '../components/Loading'
+import Loading from '../components/utils/Loading'
 import classes from '../styles/navbar.module.css'
 import { getImages } from '../actions'
 

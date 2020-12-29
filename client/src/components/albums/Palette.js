@@ -9,6 +9,7 @@ import {
     Button,
 } from '@material-ui/core'
 import Feed from '../Feed'
+import Placeholder from '../utils/Placeholder'
 
 const Album = styled.div`
     background: ${({ to }) => to};
@@ -24,7 +25,7 @@ const Album = styled.div`
         color: whitesmoke;
         font-size: small;
         text-transform: uppercase;
-        margin: 5px;
+        margin: 10px;
     }
 `
 
@@ -58,13 +59,13 @@ const Palette = ({ title, profile }) => {
 
     return (
         <>
-            <Album from="#ffa751" to="#ffe259" onClick={handleOpen}>
+            <Album from="#5e548e" to="#9f86c0" onClick={handleOpen}>
                 <span>{title}</span>
             </Album>
             <Dialog open={open} onClose={handleClose}>
                 <DialogTitle>{title}</DialogTitle>
                 <DialogContent style={{ maxWidth: 495 }}>
-                    <Feed posts={posts} />
+                    {posts.length ? <Feed posts={posts} /> : <Placeholder />}
                 </DialogContent>
                 <DialogActions style={{ padding: '1rem' }}>
                     <CloseButton onClick={handleClose} color="primary" variant="contained">Close</CloseButton>

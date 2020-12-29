@@ -9,6 +9,7 @@ import {
     Button,
 } from '@material-ui/core'
 import Feed from '../Feed'
+import Placeholder from '../utils/Placeholder'
 
 const Album = styled.div`
     background: ${({ to }) => to};
@@ -24,7 +25,7 @@ const Album = styled.div`
         color: whitesmoke;
         font-size: small;
         text-transform: uppercase;
-        margin: 5px;
+        margin: 10px;
     }
 `
 
@@ -39,8 +40,9 @@ const Moments = ({ title, type, profile }) => {
 
     const handleOpen = async () => {
         const result = await Promise.all(profile['faces'].map(id => axios.get(`/image/${id}`)))
-        // TODO: filter by type
-        setPosts(result.map(({ data }) => data.image))
+        setPosts(result
+            .map(({ data }) => data.image)
+            .filter(({ face }) => face.some(({ joyLikelihood: joy }) => joy === 'VERY_LIKELY' || joy === 'LIKELY')))
         setOpen(true)
     }
 
@@ -48,13 +50,13 @@ const Moments = ({ title, type, profile }) => {
 
     return (
         <>
-            <Album from="#ffa751" to="#ffe259" onClick={handleOpen}>
+            <Album from="#231942" to="#5e548e" onClick={handleOpen}>
                 <span>{title}</span>
             </Album>
             <Dialog open={open} onClose={handleClose}>
                 <DialogTitle>{title}</DialogTitle>
                 <DialogContent style={{ maxWidth: 495 }}>
-                    <Feed posts={posts} />
+                    {posts.length ? <Feed posts={posts} /> : <Placeholder />}
                 </DialogContent>
                 <DialogActions style={{ padding: '1rem' }}>
                     <CloseButton onClick={handleClose} color="primary" variant="contained">Close</CloseButton>

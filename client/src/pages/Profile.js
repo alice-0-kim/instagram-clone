@@ -6,7 +6,7 @@ import { connect } from 'react-redux'
 import axios from 'axios'
 import Feed from '../components/Feed'
 import NotFound from './404'
-import Loading from '../components/Loading'
+import Loading from '../components/utils/Loading'
 import Summary from '../components/Summary'
 import classes from '../styles/profile.module.css'
 import placeholder from '../assets/classic.png'
@@ -17,7 +17,7 @@ const Profile = ({
 }) => {
     const Input = useRef(null)
     const Image = useRef(null)
-    const [tab, setTab] = useState('Summary')
+    const [tab, setTab] = useState('Feed')
     const [posts, setPosts] = useState([])
     const { username } = useParams()
 
