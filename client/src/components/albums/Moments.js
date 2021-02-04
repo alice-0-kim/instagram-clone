@@ -10,11 +10,14 @@ import {
 } from '@material-ui/core'
 import Feed from '../Feed'
 import Placeholder from '../utils/Placeholder'
+import url from '../../assets/background.jpg'
 
 const Album = styled.div`
     background: ${({ to }) => to};
     background: ${({ from, to }) => `-webkit-linear-gradient(to right, ${from}, ${to})`};
     background: ${({ from, to }) => `linear-gradient(to right, ${from}, ${to})`};
+    // background-image: url(${() => url});
+    background-size: cover;
     border-radius: 5px;
     cursor: pointer;
     display: flex;
@@ -50,7 +53,7 @@ const Moments = ({ title, type, profile }) => {
 
     return (
         <>
-            <Album from="#231942" to="#5e548e" onClick={handleOpen}>
+            <Album from="#ffbe0b" to="#ffbe0b" onClick={handleOpen}>
                 <span>{title}</span>
             </Album>
             <Dialog open={open} onClose={handleClose}>

@@ -100,7 +100,29 @@ npm start
 ```
 The app should be accessible at http://localhost:8080
 
+### Environment Variables
 
+`api/db/.env` for database credentials:
+
+```
+DB_USER=
+DB_PASS=
+DB_NAME=
+```
+
+`./api/init/.env.local` for [Google OAuth credentials](https://developers.google.com/identity/sign-in/web/sign-in):
+
+```
+OAUTH_CLIENT_ID=
+OAUTH_CLIENT_SECRET=
+```
+
+`./api/controllers/.env.local` for [AWS credentials](https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html):
+
+```
+ACCESS_KEY_ID=
+SECRET_KEY=
+```
 
 <!-- ROADMAP -->
 ## Roadmap

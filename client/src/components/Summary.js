@@ -9,11 +9,11 @@ const Summary = ({ profile = {} }) => {
     const { animals = [], natures = [], faces = [], foods = [], others = [] } = profile
     const total = animals.length + natures.length + faces.length + foods.length + others.length
     const data = [
-        { label: 'faces', id: 'People', value: faces.length, color: '#231942' },
-        { label: 'foods', id: 'Food', value: foods.length, color: '#5e548e' },
-        { label: 'animals', id: 'Animal', value: animals.length, color: '#9f86c0' },
-        { label: 'natures', id: 'Nature', value: natures.length, color: '#be95c4' },
-        { label: 'others', id: 'Other', value: others.length, color: '#e0b1cb' },
+        { label: 'faces', id: 'People', value: faces.length, color: '#ffbe0b' },
+        { label: 'foods', id: 'Food', value: foods.length, color: '#fb5607' },
+        { label: 'animals', id: 'Animal', value: animals.length, color: '#ff006e' },
+        { label: 'natures', id: 'Nature', value: natures.length, color: '#8338ec' },
+        { label: 'others', id: 'Other', value: others.length, color: '#3a86ff' },
     ]
 
     return (

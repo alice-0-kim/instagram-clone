@@ -10,11 +10,15 @@ import {
 } from '@material-ui/core'
 import Feed from '../Feed'
 import Placeholder from '../utils/Placeholder'
+import url from '../../assets/background.jpg'
 
 const Album = styled.div`
     background: ${({ to }) => to};
     background: ${({ from, to }) => `-webkit-linear-gradient(to right, ${from}, ${to})`};
     background: ${({ from, to }) => `linear-gradient(to right, ${from}, ${to})`};
+    // background-image: url(${() => url});
+    background-size: cover;
+    // filter: hue-rotate(245deg);
     border-radius: 5px;
     cursor: pointer;
     display: flex;
@@ -59,7 +63,7 @@ const Palette = ({ title, profile }) => {
 
     return (
         <>
-            <Album from="#5e548e" to="#9f86c0" onClick={handleOpen}>
+            <Album from="#ff5c8a" to="#ff5c8a" onClick={handleOpen}>
                 <span>{title}</span>
             </Album>
             <Dialog open={open} onClose={handleClose}>
