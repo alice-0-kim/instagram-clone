@@ -1,37 +1,12 @@
 import React, { useState } from 'react'
 import axios from 'axios'
 import styled from 'styled-components'
-import {
-    Dialog,
-    DialogContent,
-    DialogTitle,
-    DialogActions,
-    Button,
-} from '@material-ui/core'
+import Button from '@material-ui/core/Button'
+import Dialog from '../utils/Dialog'
 import Feed from '../Feed'
+import Album from './Album'
 import Placeholder from '../utils/Placeholder'
-import url from '../../assets/background.jpg'
-
-const Album = styled.div`
-    background: ${({ to }) => to};
-    background: ${({ from, to }) => `-webkit-linear-gradient(to right, ${from}, ${to})`};
-    background: ${({ from, to }) => `linear-gradient(to right, ${from}, ${to})`};
-    // background-image: url(${() => url});
-    background-size: cover;
-    // filter: hue-rotate(245deg);
-    border-radius: 5px;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column-reverse;
-    height: 100px;
-    margin: 10px auto;
-    span {
-        color: whitesmoke;
-        font-size: small;
-        text-transform: uppercase;
-        margin: 10px;
-    }
-`
+import cream from '../../assets/cream.jpeg'
 
 const CloseButton = styled(Button)`
     color: #fff;
@@ -63,18 +38,16 @@ const Palette = ({ title, profile }) => {
 
     return (
         <>
-            <Album from="#ff5c8a" to="#ff5c8a" onClick={handleOpen}>
+            <Album url={cream} from="#ff5c8a" to="#ff5c8a" onClick={handleOpen}>
                 <span>{title}</span>
             </Album>
-            <Dialog open={open} onClose={handleClose}>
-                <DialogTitle>{title}</DialogTitle>
-                <DialogContent style={{ maxWidth: 495 }}>
-                    {posts.length ? <Feed posts={posts} /> : <Placeholder />}
-                </DialogContent>
-                <DialogActions style={{ padding: '1rem' }}>
-                    <CloseButton onClick={handleClose} color="primary" variant="contained">Close</CloseButton>
-                </DialogActions>
-            </Dialog>
+            <Dialog
+                open={open}
+                onClose={handleClose}
+                title={title}
+                content={posts.length ? <Feed posts={posts} /> : <Placeholder />}
+                actions={<CloseButton onClick={handleClose} color="primary" variant="contained">Close</CloseButton>}
+            />
         </>
     )
 }

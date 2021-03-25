@@ -1,10 +1,15 @@
 import React from 'react'
+import Grid from '@material-ui/core/Grid'
 import Image from './Image'
 
 const Feed = ({ posts = [] }) => (
-    <>
-        {posts.map((props, i) => <Image key={i} {...props} />)}
-    </>
+    <Grid container>
+        {posts.map((props, i) => (
+            <Grid item key={i} xs={12} sm={4}>
+                <Image {...props} />
+            </Grid>
+        ))}
+    </Grid>
 )
 
 export default Feed

@@ -1,6 +1,4 @@
 .root {
-    width: 150px;
-    height: 150px;
     margin: 5px;
     display: inline-block;
     position: relative;
@@ -12,7 +10,7 @@
     object-fit: cover;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 600px) {
     .root {
         width: 100%;
         height: auto;

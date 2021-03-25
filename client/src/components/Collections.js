@@ -1,38 +1,34 @@
 import React, { useEffect, useState } from 'react'
+import styled from 'styled-components'
 import axios from 'axios'
-import {
-    Dialog,
-    DialogContent,
-    DialogTitle,
-    DialogActions,
-    Button,
-    GridListTile,
-    GridList,
-    useMediaQuery,
-} from '@material-ui/core'
+import { Button, Grid } from '@material-ui/core'
+import Dialog from './utils/Dialog'
 import Feed from './Feed'
 import classes from '../styles/collections.module.css'
 
 const random = n => Math.floor(Math.random() * n)
 
+const CloseButton = styled(Button)`
+    color: #fff;
+    text-transform: capitalize;
+`
+
 const Collections = ({ data, profile }) => {
-    const { animals = [], natures = [], faces = [], foods = [], others = [] } = profile
+    const {
+        animals = [], natures = [], faces = [], foods = [], others = []
+    } = profile
 
     const [thumbnails, setThumbnails] = useState({})
     const [open, setOpen] = useState(false)
     const [title, setTitle] = useState('')
     const [posts, setPosts] = useState([])
-
-    const mobile = useMediaQuery('(max-width:414px)')
-
+    const handleClose = () => setOpen(false)
     const handleOpen = (title, selected) => async () => {
         const result = await Promise.all(profile[selected].map(id => axios.get(`/image/${id}`)))
         setTitle(title)
         setPosts(result.map(({ data }) => data.image))
         setOpen(true)
     }
-
-    const handleClose = () => setOpen(false)
 
     const Collection = ({ id, label }) => (
         <>
@@ -60,24 +56,22 @@ const Collections = ({ data, profile }) => {
 
     return (
         <>
-            <GridList cols={mobile ? 1 : 2} style={{ margin: '40px auto' }} cellHeight="auto" spacing={8}>
+            <Grid container cellHeight="auto">
                 {data.map(({ id, label }) => (
                     profile[label].length > 0 && (
-                        <GridListTile key={id}>
+                        <Grid item key={id} xs={12} sm={6} spacing={3}>
                             <Collection id={id} label={label} />
-                        </GridListTile>
+                        </Grid>
                     )
                 ))}
-            </GridList>
-            <Dialog open={open} onClose={handleClose}>
-                <DialogTitle>{title}</DialogTitle>
-                <DialogContent style={{ maxWidth: 495 }}>
-                    <Feed posts={posts} />
-                </DialogContent>
-                <DialogActions style={{ padding: '1rem' }}>
-                    <Button onClick={handleClose} color="primary" variant="contained" style={{ color: '#fff', textTransform: 'capitalize' }}>Close</Button>
-                </DialogActions>
-            </Dialog>
+            </Grid>
+            <Dialog
+                open={open}
+                onClose={handleClose}
+                title={title}
+                content={<Feed posts={posts} />}
+                actions={<CloseButton onClick={handleClose} color="primary" variant="contained">Close</CloseButton>}
+            />
         </>
     )
 }

@@ -3,7 +3,7 @@
     cursor: pointer;
     display: block;
     height: 150px;
-    margin: auto;
+    margin: 2rem auto;
     object-fit: cover;
     width: 150px;
 }
